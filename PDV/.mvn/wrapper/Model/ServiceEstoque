@@ -1,0 +1,21 @@
+package papelaria.papelariaplaneta;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class service {
+    
+    @Autowired
+    private   Repository repository;
+    public   void exibirTodosProdutos(){
+    final List<ModelEstoque>  produto = (List<ModelEstoque>) repository.findAll();
+    produto.forEach(produtos -> System.out.println(produtos));
+    }
+
+    public ModelEstoque pesquisarproduto(String produto){
+      return repository.findByproduto(produto);
+    }
+    }
