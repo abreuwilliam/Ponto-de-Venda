@@ -1,4 +1,5 @@
-package papelaria.papelariaplaneta;
+package Ponto.de.Venda.PDV;
+
 
 import java.util.List;
 
