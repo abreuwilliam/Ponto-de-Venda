@@ -33,7 +33,7 @@ public class Autenticacao {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "erro na autentificacao" ;
+            return "usuario nao encontrado" ;
         }
     }
 }

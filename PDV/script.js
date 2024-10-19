@@ -28,9 +28,9 @@ form.addEventListener('submit', (event) => {
         console.log('Resposta do servidor:', data);
         
         // Verifica se o login foi bem-sucedido
-        if (data === "Usuário encontrado") {
+        if (data === "usuario encontrado") {
             // Redirecionar para outra página
-            window.location.href = "/pagina-proxima.html"; // Substitua pela página correta
+            window.location.href = "pagina-proxima.html"; // Substitua pela página correta
         } else {
             // Exibir mensagem de erro
             alert('Usuário ou senha incorretos');
