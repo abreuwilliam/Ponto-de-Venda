@@ -1,26 +1,42 @@
 const form = document.querySelector('form');
-const usuario = document.querySelector('#usuario')
-const senha = document.querySelector('#senha')
+const usuarioInput = document.querySelector('#usuario');
+const senhaInput = document.querySelector('#senha');
+
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const iusuario = usuario.value;
-    const isenha = senha.value;
-    // Adicione aqui sua lógica de validação e envio
-    console.log(iusuario , isenha);
-});
-fetch('http://localhost:8080/user', {
-    headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-    },
-    method: 'POST',
-    body: JSON.stringify({
-        // Usamos o valor capturado aqui
-        
-       usuario: usuario,
-       senha: senha
-       
+    
+    const usuario = usuarioInput.value;
+    const senha = senhaInput.value;
+    
+    // Exibir no console as credenciais capturadas
+    console.log(usuario, senha);
+    
+    // Enviar os dados para o backend via POST
+    fetch('http://localhost:8080/user', {
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            usuario: usuario,
+            senha: senha
+        })
     })
-})
-.then(function(res) { console.log(res); })
-.catch(function(error) { console.error(error); });
+    .then(response => response.text()) // Ler a resposta como texto
+    .then(data => {
+        console.log('Resposta do servidor:', data);
+        
+        // Verifica se o login foi bem-sucedido
+        if (data === "Usuário encontrado") {
+            // Redirecionar para outra página
+            window.location.href = "/pagina-proxima.html"; // Substitua pela página correta
+        } else {
+            // Exibir mensagem de erro
+            alert('Usuário ou senha incorretos');
+        }
+    })
+    .catch(error => {
+        console.error('Erro na requisição:', error);
+    });
+});

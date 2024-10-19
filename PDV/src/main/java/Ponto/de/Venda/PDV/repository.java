@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface repository  extends CrudRepository<ModelEstoque, Integer> {
-   List<ModelEstoque> findAll();
-   ModelEstoque findByproduto(String produto); 
-   ModelEstoque save(ModelEstoque produto);
+public interface repository  extends CrudRepository<modelLogin, Integer> {
+   List<modelLogin> findAll();
+   modelLogin findByusuario(String usuario);
+   modelLogin findBysenha(String senha); 
+   modelLogin save(modelLogin usuario);
 
 }
