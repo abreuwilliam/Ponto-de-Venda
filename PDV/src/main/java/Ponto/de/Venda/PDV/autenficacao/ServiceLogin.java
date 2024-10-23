@@ -1,10 +1,8 @@
-package Ponto.de.Venda.PDV;
+package Ponto.de.Venda.PDV.autenficacao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import Ponto.de.Venda.PDV.modelLogin;
 
 @Service
 public class ServiceLogin {

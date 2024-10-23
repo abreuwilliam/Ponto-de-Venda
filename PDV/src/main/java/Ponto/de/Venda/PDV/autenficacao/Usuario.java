@@ -1,4 +1,4 @@
-package Ponto.de.Venda.PDV;
+package Ponto.de.Venda.PDV.autenficacao;
 
 import org.springframework.stereotype.Component;
 

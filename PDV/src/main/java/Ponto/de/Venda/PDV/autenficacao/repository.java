@@ -1,4 +1,4 @@
-package Ponto.de.Venda.PDV;
+package Ponto.de.Venda.PDV.autenficacao;
 
 
 import java.util.List;

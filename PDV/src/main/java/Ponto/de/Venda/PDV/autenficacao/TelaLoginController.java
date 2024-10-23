@@ -1,4 +1,4 @@
-package Ponto.de.Venda.PDV;
+package Ponto.de.Venda.PDV.autenficacao;
 import java.security.Provider.Service;
 import java.util.List;
 
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import Ponto.de.Venda.PDV.*;
 @RestController
 @CrossOrigin(origins = "*")  // Permite requisições de qualquer origem
 @RequestMapping(value = "/user")
