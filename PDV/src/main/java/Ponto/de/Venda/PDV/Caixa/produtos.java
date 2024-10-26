@@ -8,6 +8,7 @@ public class produtos {
     private long codigo_Produto;
     private double preco;
     private int quantidade_Estoque;
+    
 
     public String getProduto() {
         return produto;

@@ -25,16 +25,22 @@ public class caixa {
         this.codigo_Produto = codigo_Produto;
     }
     
-    public Map<String, Object> processamentoCaixa() {
+    public String processamentoCaixa() {
     // Obtém o produto do serviço
+    try {
+        
     ModelEstoque produto = servicecaixa.pesquisarcodigoProduto(codigo_Produto);
 
+    return produto.getProduto() + " " + produto.getPreco();
     // Cria um mapa para armazenar apenas os campos desejados
-    Map<String, Object> response = new HashMap<>();
-    response.put("produto", produto.getProduto());
-    response.put("preco", produto.getPreco());
+    
 
     // Retorna o mapa
-    return response;
+    
+} catch (Exception e) {
+    e.printStackTrace();
+       e.printStackTrace();
+            return "produto nao encontrado";
+}
 }
 }

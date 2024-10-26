@@ -34,9 +34,11 @@ public class TelaCaixaController {
 	}
 
 	@PostMapping
-	public Map<String, Object> postMethod(@RequestBody produtos document) {
+	public String  postMethod(@RequestBody String document) {
 
-		caixa.setCodigo_Produto(document.getCodigo_Produto());
+		String codigoProdutoString = document.replaceAll("[^0-9]", "");
+        Long codigoProduto = Long.parseLong(codigoProdutoString);
+		caixa.setCodigo_Produto(codigoProduto);
 		return  caixa.processamentoCaixa();
 		
 	}

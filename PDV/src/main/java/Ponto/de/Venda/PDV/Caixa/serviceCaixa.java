@@ -20,4 +20,7 @@ public class serviceCaixa {
     public ModelEstoque pesquisarcodigoProduto(Long produto){
       return repository.findBycodigoProduto(produto);
     }
+    public ModelEstoque salvarEstoque(ModelEstoque produto){
+      return repository.save(produto);
+    }
   }
