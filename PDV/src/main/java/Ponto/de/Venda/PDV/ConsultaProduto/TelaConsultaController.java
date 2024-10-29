@@ -1,4 +1,4 @@
-package Ponto.de.Venda.PDV.Caixa;
+package Ponto.de.Venda.PDV.ConsultaProduto;
 import java.security.Provider.Service;
 import java.util.List;
 import java.util.Map;
@@ -13,22 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*")  // Permite requisições de qualquer origem
-@RequestMapping(value = "/cadastro")
-public class TelaCadastroController {
+@RequestMapping(value = "/consulta")
+public class TelaConsultaController {
 
-
-
-	@Autowired
-  private Ponto.de.Venda.PDV.Caixa.serviceCaixa serviceCaixa;
-
-	
-   @Autowired
-   private Ponto.de.Venda.PDV.Caixa.cadastra cadastra;
-
+  @Autowired
+  private consulta consulta;
    @PostMapping
-	public String postMethod(@RequestBody produtos document) {
-    return cadastra.cadastrar(document);
-    
+	public List<ModelEstoqueConsulta> postMethod(@RequestBody String document) {
+   return consulta.realizarConsulta(document);
+  
 	}
 
 	}
