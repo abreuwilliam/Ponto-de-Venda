@@ -5,8 +5,11 @@ import java.util.Map;
 
 import org.apache.naming.ServiceRef;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TelaCaixaController {
 
 
-
 	@Autowired
    private Ponto.de.Venda.PDV.Caixa.serviceCaixa serviceCaixa;
 	
@@ -25,13 +27,17 @@ public class TelaCaixaController {
    private Ponto.de.Venda.PDV.Caixa.caixa caixa;
 
 
-	@GetMapping
-	public ModelEstoque home() {
-		List<ModelEstoque> produto = (List<ModelEstoque>) serviceCaixa.exibirTodosProdutos() ;
-	    produto.forEach(produtos -> System.out.println(produtos));
-		//return produto;
-      return (ModelEstoque) serviceCaixa.pesquisarcodigoProduto(22225235565L);
-	}
+	@GetMapping("/{codigoProduto}")
+    public ResponseEntity<ModelEstoque> buscarProdutoPorCodigo(@PathVariable Long codigoProduto) {
+        ModelEstoque produto = serviceCaixa.pesquisarcodigoProduto(codigoProduto);
+        
+        if (produto != null) {
+            return ResponseEntity.ok(produto);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Retorna 404 se o produto não for encontrado
+        }
+    }
+
 
 	@PostMapping
 	public String  postMethod(@RequestBody String document) {
@@ -42,5 +48,4 @@ public class TelaCaixaController {
 		return  caixa.processamentoCaixa();
 		
 	}
-	
 }

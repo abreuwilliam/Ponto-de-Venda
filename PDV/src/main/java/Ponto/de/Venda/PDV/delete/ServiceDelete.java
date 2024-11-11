@@ -16,13 +16,15 @@ public class ServiceDelete {
    
     public   List<ModelDelete> exibirTodosProdutos(){
     return repository.findAll();
-    ;
     }
 
     public ModelDelete pesquisarcodigoProduto(String produto){
-      return repository.findByProduto(produto);
+      return repository.findByproduto(produto);
     }
     public ModelDelete salvarEstoque(ModelDelete produto){
       return repository.save(produto);
+    }
+    public void deletaEstoque(Long codigoProduto){
+       repository.deleteBycodigoProduto(codigoProduto);
     }
   }

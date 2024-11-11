@@ -1,5 +1,5 @@
 
-package Ponto.de.Venda.PDV.ModelDelete;
+package Ponto.de.Venda.PDV.delete;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

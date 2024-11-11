@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface repositoryDelete  extends CrudRepository<ModelDelete, Integer> {
    List<ModelDelete> findAll();
-   ModelDelete findByProduto(String codigoproduto);
+   ModelDelete findByproduto(String produto);
    ModelDelete save(ModelDelete produtos);
+   void deleteBycodigoProduto(Long codigoProduto);
 }
