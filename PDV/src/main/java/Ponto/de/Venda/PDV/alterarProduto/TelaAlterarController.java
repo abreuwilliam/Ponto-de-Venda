@@ -25,7 +25,7 @@ public class TelaAlterarController {
     private Alterar alterar;
 
     @PutMapping("/{codigoProduto}")  // Inclua o código do produto na URL
-    public int postMethod(@PathVariable String codigoProduto, @RequestBody produtosAlterar document) {
+    public Long postMethod(@PathVariable String codigoProduto, @RequestBody produtosAlterar document) {
         return alterar.Alterar(document);
     }
 }

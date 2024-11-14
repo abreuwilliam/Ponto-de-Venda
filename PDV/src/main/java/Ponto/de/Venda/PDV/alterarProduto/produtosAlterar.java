@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class produtosAlterar {
     private String produto;
-    private long codigo_Produto;
+    private long codigoProduto;
     private double preco;
-    private int quantidade_Estoque;
+    private int quantidadeEstoque;
     
 
     public String getProduto() {
@@ -17,11 +17,11 @@ public class produtosAlterar {
     public void setProduto(String produto) {
         this.produto = produto;
     }
-    public long getCodigo_Produto() {
-        return codigo_Produto;
+    public long getCodigoProduto() {
+        return codigoProduto;
     }
-    public void setCodigo_Produto(long codigo_Produto) {
-        this.codigo_Produto = codigo_Produto;
+    public void setCodigoProduto(long CodigoProduto) {
+        this.codigoProduto = CodigoProduto;
     }
     public double getPreco() {
         return preco;
@@ -29,13 +29,11 @@ public class produtosAlterar {
     public void setPreco(double preco) {
         this.preco = preco;
     }
-    public int getQuantidade_Estoque() {
-        return quantidade_Estoque;
+    public int getQuantidadeEstoque() {
+        return quantidadeEstoque;
     }
-    public void setQuantidade_Estoque(int quantidade_Estoque) {
-        this.quantidade_Estoque = quantidade_Estoque;
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
     }
-
-    
 }
 

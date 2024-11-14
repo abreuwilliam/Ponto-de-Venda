@@ -22,8 +22,8 @@ public class ServiceAlterar {
     // produto.forEach(produtos -> System.out.println(produtos));
     }
 
-    public ModelAlterar pesquisarcodigoProduto(String produto){
-      return repository.findByProduto(produto);
+    public ModelAlterar pesquisarcodigoProduto(Long produto){
+      return repository.findBycodigoProduto(produto);
     }
     public ModelAlterar salvarEstoque(ModelAlterar produto){
       return repository.save(produto);
