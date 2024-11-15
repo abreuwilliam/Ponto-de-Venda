@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.naming.ServiceRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,4 +39,11 @@ public class TelaPedidosController {
       return servicePedidos.exibirTodosProdutos(); 
   }
 
+  @DeleteMapping
+  public String deleteTodosPedidos() {
+    // Chama o serviço para excluir todos os pedidos
+    servicePedidos.deletarTodosPedidos();
+      return "Todos os pedidos foram excluídos com sucesso.";
+
 	}
+}

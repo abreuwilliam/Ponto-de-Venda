@@ -23,4 +23,7 @@ public class servicePedidos {
     public ModelPedidos salvarEstoque(ModelPedidos pedidos){
       return repository.save(pedidos);
     }
+    public void deletarTodosPedidos(){
+      repository.deleteAll();
+    }
   }
