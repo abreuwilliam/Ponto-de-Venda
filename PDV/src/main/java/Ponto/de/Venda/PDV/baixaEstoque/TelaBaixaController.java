@@ -32,13 +32,14 @@ public class TelaBaixaController {
     for (Map<String, Object> produto : produtos) {
         String descricao = (String) produto.get("descricao");
         Double preco = (Double) produto.get("preco");
+        int quantidade = (int) produto.get("quantidade");
        
   
         // Busca o produto no banco de dados
         ModelBaixa modelProduto = repositoryBaixa.findByProduto(descricao);
         if (modelProduto != null) {
             // Atualiza a quantidade no estoque
-            modelProduto.setQuantidadeEstoque(modelProduto.getQuantidadeEstoque() - 1); // Diminui 1 unidade
+            modelProduto.setQuantidadeEstoque(modelProduto.getQuantidadeEstoque() - quantidade); // Diminui 1 unidade
             repositoryBaixa.save(modelProduto); // Salva o produto atualizado
         }
     }
