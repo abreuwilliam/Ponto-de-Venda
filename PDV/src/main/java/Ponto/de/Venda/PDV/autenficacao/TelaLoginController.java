@@ -1,8 +1,5 @@
 package Ponto.de.Venda.PDV.autenficacao;
-import java.security.Provider.Service;
 import java.util.List;
-
-import org.apache.naming.ServiceRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")  // Permite requisições de qualquer origem
 @RequestMapping(value = "/user")
 public class TelaLoginController {
-
-
 
 	@Autowired
    private ServiceLogin serviceLogin;
@@ -37,8 +32,5 @@ public class TelaLoginController {
 	public String postMethod(@RequestBody String document) {
 		usuario.setUsuario(document);
 		return autenticacao.autentificacao();
-		
-		
 	}
-	
 }

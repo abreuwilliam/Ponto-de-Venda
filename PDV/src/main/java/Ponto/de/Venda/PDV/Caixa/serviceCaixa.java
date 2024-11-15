@@ -13,10 +13,7 @@ public class serviceCaixa {
    
     public   List<ModelEstoque> exibirTodosProdutos(){
     return repository.findAll();
-    //List<ModelEstoque>  produto = (List<ModelEstoque>) 
-    // produto.forEach(produtos -> System.out.println(produtos));
     }
-
     public ModelEstoque pesquisarcodigoProduto(Long produto){
       return repository.findBycodigoProduto(produto);
     }

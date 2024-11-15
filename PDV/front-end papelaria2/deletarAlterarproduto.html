@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Produto - Papelaria Planeta</title>
+    <link rel="stylesheet" href="style_editar_produto.css">
+</head>
+<body>
+    <div class="menu">
+        <img src="logo%20papelariaplaneta.png" alt="Logo Papelaria Planeta" class="logo">
+        <h1>Editar/Deletar Produto</h1>
+        <div class="form-container">
+            <form id="produtoForm">
+                <label for="codigoProduto">Código do Produto:</label>
+                <input type="text" id="codigoProduto" name="codigoProduto" placeholder="Digite o código do produto">
+              
+                <label for="produto">Produto:</label>
+                <input type="text" id="produto" name="produto" disabled>
+
+                <label for="preco">Preço:</label>
+                <input type="text" id="preco" name="preco" disabled>
+
+                <label for="quantidadeEstoque">Quantidade em Estoque:</label>
+                <input type="text" id="quantidadeEstoque" name="quantidadeEstoque" disabled style="margin-bottom: 10px;"> <!-- Espaço adicionado aqui -->
+
+                <!-- Novo campo para adicionar a quantidade recebida -->
+                <label for="quantidadeNova">Quantidade Recebida:</label>
+                <input type="number" id="quantidadeNova" name="quantidadeNova" placeholder="Digite a quantidade recebida">
+
+                <div class="button-group">
+                    <button type="button" onclick="alterarProduto()" class="btn btn-alterar">Alterar Produto</button>
+                    <button type="button" onclick="deletarProduto()" class="btn btn-deletar">Deletar Produto</button>
+                    <button  id="atualizarEstoqueBtn">Atualizar Estoque</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="script_editar_produto.js"></script>
+</body>
+</html>

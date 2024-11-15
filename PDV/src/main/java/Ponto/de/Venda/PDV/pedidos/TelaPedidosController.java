@@ -1,10 +1,6 @@
 package Ponto.de.Venda.PDV.pedidos;
 
-import java.security.Provider.Service;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.naming.ServiceRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
-@CrossOrigin(origins = "*")  // Permite requisições de qualquer origem
+@CrossOrigin(origins = "*") 
 @RequestMapping(value = "/pedidos")
 public class TelaPedidosController {
 
@@ -41,7 +37,6 @@ public class TelaPedidosController {
 
   @DeleteMapping
   public String deleteTodosPedidos() {
-    // Chama o serviço para excluir todos os pedidos
     servicePedidos.deletarTodosPedidos();
       return "Todos os pedidos foram excluídos com sucesso.";
 

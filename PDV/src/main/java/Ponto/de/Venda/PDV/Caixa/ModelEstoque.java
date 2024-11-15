@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "estoque")
-public class ModelEstoque { // Nome da classe corrigido
+public class ModelEstoque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class ModelEstoque { // Nome da classe corrigido
     private double preco;
 
     @Column(name = "quantidade_Estoque")
-    private int quantidadeEstoque; // Alterado para camelCase
+    private int quantidadeEstoque; 
 
     // Getters e setters
     public int getId() {

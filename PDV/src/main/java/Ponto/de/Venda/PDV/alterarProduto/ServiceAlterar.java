@@ -1,13 +1,8 @@
 package Ponto.de.Venda.PDV.alterarProduto;
 
-
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 
 @Service
 public class ServiceAlterar {
@@ -15,13 +10,9 @@ public class ServiceAlterar {
     @Autowired
     private   repositoryAlterar repository;
    
-   
     public   List<ModelAlterar> exibirTodosProdutos(){
     return repository.findAll();
-    //List<ModelEstoque>  produto = (List<ModelEstoque>) 
-    // produto.forEach(produtos -> System.out.println(produtos));
     }
-
     public ModelAlterar pesquisarcodigoProduto(Long produto){
       return repository.findBycodigoProduto(produto);
     }

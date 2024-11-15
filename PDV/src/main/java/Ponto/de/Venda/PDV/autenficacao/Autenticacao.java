@@ -12,7 +12,7 @@ public class Autenticacao {
     private ServiceLogin serviceLogin;
 
     @Autowired
-    private Usuario usuario; // Supondo que Usuario é um bean do tipo correto
+    private Usuario usuario; 
 
     public String autentificacao() {
         try {
@@ -30,7 +30,7 @@ public class Autenticacao {
             if (serviceLogin.pesquisarusuario(usuarioNome)  && (serviceLogin.pesquisarsenha(senha))) {
                 return "usuario encontrado" ;
             } else {
-                return "falha na autentificacao: "; // Corrigido a concatenação
+                return "falha na autentificacao: "; 
             }
         } catch (Exception e) {
             e.printStackTrace();

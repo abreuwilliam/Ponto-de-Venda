@@ -26,16 +26,9 @@ public class caixa {
     }
     
     public String processamentoCaixa() {
-    // Obtém o produto do serviço
-    try {
-        
+    try {  
     ModelEstoque produto = servicecaixa.pesquisarcodigoProduto(codigo_Produto);
-
     return produto.getProduto() + " " + produto.getPreco();
-    // Cria um mapa para armazenar apenas os campos desejados
-    
-
-    // Retorna o mapa
     
 } catch (Exception e) {
     e.printStackTrace();

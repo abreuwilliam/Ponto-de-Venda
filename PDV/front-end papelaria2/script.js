@@ -8,8 +8,7 @@ form.addEventListener('submit', (event) => {
     const usuario = usuarioInput.value;
     const senha = senhaInput.value;
     
-    // Exibir no console as credenciais capturadas
-    console.log(usuario, senha);
+   
     
     // Enviar os dados para o backend via POST
     fetch('http://localhost:8080/user', {
@@ -30,7 +29,8 @@ form.addEventListener('submit', (event) => {
         // Verifica se o login foi bem-sucedido
         if (data === "usuario encontrado") {
             // Redirecionar para outra página
-            window.location.href = "pagina-proxima.html"; // Substitua pela página correta
+            console.log('Redirecionando para a página...');
+            window.location.href = "menu.html"; // Substitua pela página correta
         } else {
             // Exibir mensagem de erro
             alert('Usuário ou senha incorretos');

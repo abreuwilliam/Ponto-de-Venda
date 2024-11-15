@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e0e5ec; /* Cor de fundo mais clara */
+}
+
+.menu {
+    text-align: center;
+    max-width: 600px; /* Aumentando a largura */
+    width: 100%; /* Garantir que o conteúdo use toda a largura disponível dentro do max-width */
+    padding: 25px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #ffffff, #d1d9e6);
+    box-shadow: 6px 6px 12px #babecc, -6px -6px 12px #ffffff;
+}
+
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.form-container {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    color: #555;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: inset 2px 2px 5px #babecc, inset -2px -2px 5px #ffffff;
+    transition: box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #ffffff;
+    
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+    box-shadow: 3px 3px 6px #babecc, -3px -3px 6px #ffffff;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    
+}
+
+.btn-alterar {
+    background-color: #4CAF50;
+    color: white;
+    
+}
+
+.btn-deletar {
+    background-color: #f44336;
+    color: white;
+    
+}
+
+button:hover {
+    opacity: 0.9;
+    box-shadow: 4px 4px 8px #babecc, -4px -4px 8px #ffffff;
+    transform: translateY(-2px);
+}
+.quantidadeEstoque {
+    margin-bottom: 20px; /* Ajuste o valor para o espaço desejado */
+}
+.input-margin-bottom {
+    margin-bottom: 20px;
+}
+.btn btn-deletar{
+    margin-bottom: 200px;
+}

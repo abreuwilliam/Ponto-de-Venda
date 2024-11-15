@@ -10,8 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pedidos")
-public class ModelPedidos { // Nome da classe corrigido
-
+public class ModelPedidos { 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

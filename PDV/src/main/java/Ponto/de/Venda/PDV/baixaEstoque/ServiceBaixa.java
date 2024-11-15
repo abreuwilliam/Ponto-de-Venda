@@ -1,10 +1,8 @@
 package Ponto.de.Venda.PDV.baixaEstoque;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import Ponto.de.Venda.PDV.Caixa.repositoryCaixa;
 
 @Service
@@ -16,10 +14,7 @@ public class ServiceBaixa {
    
     public   List<ModelBaixa> exibirTodosProdutos(){
     return repository.findAll();
-    //List<ModelEstoque>  produto = (List<ModelEstoque>) 
-    // produto.forEach(produtos -> System.out.println(produtos));
     }
-
     public ModelBaixa pesquisarcodigoProduto(String produto){
       return repository.findByProduto(produto);
     }

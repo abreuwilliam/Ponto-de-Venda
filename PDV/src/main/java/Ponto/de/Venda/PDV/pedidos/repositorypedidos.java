@@ -9,7 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface repositorypedidos  extends CrudRepository<ModelPedidos, Integer> {
 
    List<ModelPedidos> findAll();
-
    ModelPedidos findBypedidos(String pedidos);
    ModelPedidos save(ModelPedidos pedidos);
 

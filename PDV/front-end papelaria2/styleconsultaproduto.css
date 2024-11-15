@@ -1,0 +1,105 @@
+/* style.css */
+body {
+    font-family: 'Poppins', sans-serif; /* Fonte mais moderna e clean */
+    background-color: #f9fafb; /* Cor de fundo mais suave */
+    margin: 0;
+    padding: 0;
+}
+
+.consulta-container {
+    width: 75%; /* Diminui a largura para dar mais espaço nas laterais */
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 12px; /* Cantos arredondados mais suaves */
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+    border: 1px solid #ddd; /* Borda suave ao redor do container */
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.search-bar input {
+    width: 60%; /* Aumenta a largura do campo de pesquisa */
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Borda mais arredondada */
+    margin-right: 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2); /* Efeito de foco suave */
+}
+
+.search-bar button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+.produto-tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.produto-tabela th, .produto-tabela td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.produto-tabela th {
+    background-color: #f7f7f7;
+    color: #555;
+    font-weight: 500;
+}
+
+.produto-tabela td {
+    background-color: #fff;
+    color: #666;
+    border-radius: 6px; /* Cantos arredondados nas células */
+}
+
+.produto-tabela tr:hover {
+    background-color: #f1f1f1; /* Destaque ao passar o mouse */
+}
+
+.produto-tabela td:last-child {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .consulta-container {
+        width: 90%; /* Ajuste na largura em telas pequenas */
+        padding: 15px;
+    }
+
+    .search-bar input {
+        width: 70%; /* Ajuste no campo de pesquisa */
+    }
+}

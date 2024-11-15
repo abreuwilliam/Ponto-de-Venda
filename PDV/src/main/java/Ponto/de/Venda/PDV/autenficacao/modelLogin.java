@@ -9,14 +9,14 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "login")
-public class modelLogin { // Nome da classe corrigido
+public class modelLogin { 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "usuario")
-    private String usuario; // Alterado para camelCase, seguindo convenção de nomes de variáveis
+    private String usuario; 
 
     @Column(name = "senha")
     private String senha;

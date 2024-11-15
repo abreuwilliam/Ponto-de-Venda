@@ -1,6 +1,5 @@
 package Ponto.de.Venda.PDV.autenficacao;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +12,6 @@ public class ServiceLogin {
    
     public   List<modelLogin> exibirTodosProdutos(){
     return repository.findAll();
-    //List<ModelEstoque>  produto = (List<ModelEstoque>) 
-    // produto.forEach(produtos -> System.out.println(produtos));
     }
 
     public boolean pesquisarusuario(String usuario){
@@ -29,6 +26,5 @@ public class ServiceLogin {
         }else{
           return true;
         }
-
     }
     }

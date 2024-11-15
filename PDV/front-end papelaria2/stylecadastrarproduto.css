@@ -1,0 +1,160 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 30px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.form-container, .tabela-container {
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: border 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #5cb85c;
+    outline: none;
+}
+
+button {
+    padding: 10px 15px;
+    margin-top: 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+button[type="reset"] {
+    background-color: #d9534f;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+button[type="reset"]:hover {
+    background-color: #c9302c;
+}
+
+.tabela-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabela-container th, .tabela-container td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    font-size: 1.1em;
+}
+
+.tabela-container th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.tabela-container td {
+    background-color: #fafafa;
+}
+
+.acao-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.acao-buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.acao-buttons .edit-button {
+    background-color: #5bc0de;
+    color: white;
+}
+
+.acao-buttons .delete-button {
+    background-color: #d9534f;
+    color: white;
+}
+
+.acao-buttons button:hover {
+    opacity: 0.85;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    h1, h2 {
+        font-size: 1.6em;
+    }
+
+    .tabela-container table {
+        font-size: 0.9em;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .acao-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .acao-buttons button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Pedidos</title>
+    <link rel="stylesheet" href="stylepedidos.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Pedidos</h1>
+
+        <!-- Formulário para anotar a descrição do pedido -->
+        <div class="form-container">
+            <h2>Descrição do Pedido</h2>
+            <form id="pedidoForm">
+                <textarea id="descricaoPedido" rows="5" placeholder="Digite a descrição do pedido aqui..." required></textarea>
+                <button type="button" onclick="registrarPedido()">Registrar Pedido</button>
+                <button type="reset">Limpar</button>
+            </form>
+        </div>
+
+        <!-- Área para exibir os pedidos registrados -->
+        <div class="pedidos-container">
+            <h2>Pedidos Registrados</h2>
+            <ul id="listaPedidos">
+                <!-- Pedidos registrados serão exibidos aqui -->
+            </ul>
+            <button type="button" onclick="deletarTodosPedidos()">Deletar Todos os Pedidos</button>
+        </div>
+    </div>
+    <script src="scriptpedidos.js"></script>
+</body>
+</html>

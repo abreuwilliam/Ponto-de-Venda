@@ -1,13 +1,9 @@
 package Ponto.de.Venda.PDV.ConsultaProduto;
 
 import java.util.List;
-
 import java.util.ArrayList;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 
 @Component
 public class consulta {
@@ -29,7 +25,6 @@ public class consulta {
             List<ModelEstoqueConsulta> listaErro = new ArrayList<>();
             listaErro.add(erro);
             return listaErro;
-
-    }
-    
-}}
+    }  
+  }
+}

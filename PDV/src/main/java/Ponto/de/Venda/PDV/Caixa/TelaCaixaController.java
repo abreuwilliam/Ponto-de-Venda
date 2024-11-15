@@ -1,9 +1,5 @@
 package Ponto.de.Venda.PDV.Caixa;
-import java.security.Provider.Service;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.naming.ServiceRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +33,6 @@ public class TelaCaixaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Retorna 404 se o produto não for encontrado
         }
     }
-
-
 	@PostMapping
 	public String  postMethod(@RequestBody String document) {
 

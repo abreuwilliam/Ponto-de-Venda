@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Ponto.de.Venda.PDV.Caixa.repositoryCaixa;
-
 @Service
 public class ServiceDelete {
     
@@ -17,7 +15,6 @@ public class ServiceDelete {
     public   List<ModelDelete> exibirTodosProdutos(){
     return repository.findAll();
     }
-
     public ModelDelete pesquisarcodigoProduto(String produto){
       return repository.findByproduto(produto);
     }
