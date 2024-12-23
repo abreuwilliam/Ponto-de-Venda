@@ -36,11 +36,12 @@ function atualizarListaPedidos() {
 function enviarDados(descricao) {
     const dados = JSON.stringify({ pedidos: descricao });
     console.log('Dados enviados:', dados); // Para ver o JSON no console
-
+    const token = localStorage.getItem('authToken');
     fetch('http://localhost:8080/pedidos', {
         headers: {
             "Accept": "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+             "Authorization": `Bearer ${token}`
         },
         method: 'POST',
         body: dados
@@ -56,26 +57,37 @@ function enviarDados(descricao) {
 
 // Função para listar pedidos da API
 function listarPedidos() {
-    fetch('http://localhost:8080/pedidos')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro na rede ao buscar os pedidos.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            pedidos = data.map(pedido => pedido.pedidos); // Extrai apenas as descrições dos pedidos
-            console.log(pedidos); // Mostra a lista de pedidos no console
-            atualizarListaPedidos(); // Atualiza a lista de pedidos na interface
-        })
-        .catch(error => {
-            console.error('Erro ao listar os pedidos:', error);
-        });
+    const token = localStorage.getItem('authToken'); // Recupera o token JWT do localStorage
+
+    fetch('http://localhost:8080/pedidos', {
+        method: 'GET',
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` // Adiciona o token no cabeçalho da requisição
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro na rede ao buscar os pedidos.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const pedidos = data.map(pedido => pedido.pedidos); // Extrai apenas as descrições dos pedidos
+        console.log(pedidos); // Mostra a lista de pedidos no console
+        atualizarListaPedidos(); // Atualiza a lista de pedidos na interface
+    })
+    .catch(error => {
+        console.error('Erro ao listar os pedidos:', error);
+    });
 }
 // Função para deletar todos os pedidos
 function deletarTodosPedidos() {
+    const token = localStorage.getItem('authToken');
     fetch('http://localhost:8080/pedidos', {
-        method: 'DELETE'
+        method: 'DELETE',
+        "Authorization": `Bearer ${token}`
     })
     .then(response => {
         if (!response.ok) {

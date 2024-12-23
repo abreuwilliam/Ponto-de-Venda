@@ -51,10 +51,12 @@ function atualizarTabela() {
 
 // Função para enviar os dados para o servidor
 function enviarDados(produto) {
+    const token = localStorage.getItem('authToken');
     fetch('http://localhost:8080/cadastro', {
         headers: {
             "Accept": "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+             "Authorization": `Bearer ${token}`
         },
         method: 'POST',
         body: JSON.stringify({

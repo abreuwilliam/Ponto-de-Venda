@@ -130,10 +130,13 @@ function adicionarProduto() {
 
 // Função para enviar os dados
 function enviarDados(codigoProduto, quantidade) {
+    const token = localStorage.getItem('authToken');
     fetch('http://localhost:8080/caixa', {
         headers: {
             "Accept": "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+             "Authorization": `Bearer ${token}`
+            
         },
         method: 'POST',
         body: JSON.stringify({
@@ -200,7 +203,13 @@ function calcularTroco() {
     } else {
         document.getElementById('troco').textContent = '0.00';
     }
+
+    // Limpa o troco após 10 segundos
+    setTimeout(() => {
+        document.getElementById('troco').textContent = '0.00';
+    }, 5000); // 10000 milissegundos = 10 segundos
 }
+
 // Função para cancelar a venda atual
 function cancelarVenda() {
     if (confirm("Tem certeza de que deseja cancelar a venda atual?")) {
@@ -262,6 +271,7 @@ document.getElementById('valorPago').addEventListener('input', calcularTroco);
 
 // Função para finalizar a venda e enviar lista de produtos para o servidor
 function finalizarVenda() {
+    const token = localStorage.getItem('authToken');
     if (aberturacaixa === "caixaaberto") {
         alert(`Venda finalizada! Total: R$ ${total.toFixed(2)}`);
         vendasDiarias.push(total); // Adiciona o total da venda ao histórico
@@ -272,7 +282,8 @@ function finalizarVenda() {
         fetch('http://localhost:8080/baixa', {
             headers: {
                 "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             method: 'POST',
             body: JSON.stringify(produtosNaVenda)
@@ -296,9 +307,10 @@ function finalizarVenda() {
         document.getElementById('descricaoProduto').textContent = '';
         document.getElementById('codigoProduto').value = '';
         document.getElementById('historicoProdutos').innerHTML = '';
+        document.getElementById('troco').textContent = '0.00';
 
         // Chama calcularTroco para garantir que o troco seja atualizado
-        calcularTroco();
+        
     } else {
         alert("O caixa está fechado. Não é possível finalizar a venda.");
     }

@@ -16,28 +16,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Função para buscar produtos na API
     async function consultaproduto(codigoProduto) {
-        try {
-            const response = await fetch('http://localhost:8080/consulta', {
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                method: 'POST',
-                body: codigoProduto // Enviando apenas a string
-            });
+    try {
+        const token = localStorage.getItem('authToken'); 
+        console.log('Token recuperado:', localStorage.getItem('authToken'));// Pegue o token do localStorage ou outra fonte
+        const response = await fetch('http://localhost:8080/consulta', {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // Adicione o token JWT aqui
+            },
+            method: 'POST',
+           body: codigoProduto // Certifique-se de enviar um JSON válido
+        });
 
-            console.log("Status da resposta:", response.status); // Log do status
+        console.log("Status da resposta:", response.status); // Log do status
 
-            if (!response.ok) {
-                throw new Error('Erro ao buscar produtos');
-            }
-
-            const produtos = await response.json();
-            popularTabela(produtos);
-        } catch (error) {
-            console.error('Erro:', error);
+        if (!response.ok) {
+            throw new Error('Erro ao buscar produtos');
         }
+
+        const produtos = await response.json();
+        popularTabela(produtos);
+    } catch (error) {
+        console.error('Erro:', error);
     }
+}
+
 
     // Função de debounce para limitar a quantidade de requisições
     let debounceTimeout;

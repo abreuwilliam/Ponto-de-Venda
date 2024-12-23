@@ -10,6 +10,7 @@ document.getElementById('codigoProduto').addEventListener('input', function() {
     }, 1000); // 1000 ms = 1 segundo
 });
 
+
 async function buscarProduto() {
     const codigoProduto = document.getElementById('codigoProduto').value;
 
@@ -18,9 +19,24 @@ async function buscarProduto() {
         return;
     }
 
+    // Recuperar o token de autenticação do localStorage
+    const token = localStorage.getItem('authToken');
+    console.log("Token recuperado na busca:", token);  // Verifique o token aqui
+
+    if (!token) {
+        alert('Token de autenticação não encontrado. Faça login novamente.');
+        return;
+    }
+
     try {
-        const response = await fetch(`http://localhost:8080/caixa/${codigoProduto}`);
-        
+        // Realizar a requisição com o token no cabeçalho
+        const response = await fetch(`http://localhost:8080/caixa/${codigoProduto}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
         if (response.ok) {
             const produto = await response.json();
             document.getElementById('produto').value = produto.produto;
@@ -39,8 +55,13 @@ async function buscarProduto() {
         }
     } catch (error) {
         console.error('Erro:', error);
+        alert('Erro ao buscar o produto. Tente novamente mais tarde.');
     }
 }
+
+
+
+
 
 
 // Evento para atualizar o estoque e salvar no banco de dados
@@ -71,22 +92,30 @@ async function alterarProduto() {
     const quantidadeEstoque = document.getElementById('quantidadeEstoque').value;
 
     if (!codigoProduto || !produto || !preco || !quantidadeEstoque) {
-        alert("Todos os campos são obrigatórios para realizar a alteração.");
+        alert('Todos os campos são obrigatórios para realizar a alteração.');
         return;
     }
 
     const data = {
-        codigoProduto: codigoProduto,
-        produto: produto,
+        codigoProduto,
+        produto,
         preco: parseFloat(preco),
-        quantidadeEstoque: parseInt(quantidadeEstoque)
+        quantidadeEstoque: parseInt(quantidadeEstoque),
     };
 
     try {
+        const token = localStorage.getItem('authToken');
+
+        if (!token) {
+            alert('Token de autenticação não encontrado. Faça login novamente.');
+            return;
+        }
+
         const response = await fetch(`http://localhost:8080/alterar/${codigoProduto}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Certifique-se de usar o formato correto aqui
             },
             body: JSON.stringify(data),
         });
@@ -94,15 +123,13 @@ async function alterarProduto() {
         if (response.ok) {
             alert('Produto alterado com sucesso!');
         } else {
-            let responseData = await response.text();
-            alert(`Erro ao alterar o produto: ${responseData || 'Erro desconhecido'}`);
+            const errorMsg = await response.text();
+            alert(`Erro ao alterar o produto: ${errorMsg || 'Erro desconhecido'}`);
         }
     } catch (error) {
-        console.error('Erro:', error);
-        
+        console.error('Erro ao alterar o produto:', error);
     }
 }
-
 async function deletarProduto() {
     const codigoProduto = document.getElementById('codigoProduto').value;
 
@@ -114,23 +141,30 @@ async function deletarProduto() {
     const confirmDelete = confirm(`Tem certeza que deseja deletar o produto com código ${codigoProduto}?`);
     if (confirmDelete) {
         try {
+            const token = localStorage.getItem('authToken');
+
+            if (!token) {
+                alert('Token de autenticação não encontrado. Faça login novamente.');
+                return;
+            }
+
             const response = await fetch(`http://localhost:8080/delete/${codigoProduto}`, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Garantir o uso correto aqui também
+                },
             });
 
             if (response.ok) {
                 alert('Produto excluído com sucesso!');
-                // Limpar os campos após a exclusão
-                document.getElementById('codigoProduto').value = '';
-                document.getElementById('produto').value = '';
-                document.getElementById('preco').value = '';
-                document.getElementById('quantidadeEstoque').value = '';
+                limparCamposProduto();
             } else {
                 alert('Erro ao excluir o produto.');
             }
         } catch (error) {
-            console.error('Erro:', error);
+            console.error('Erro ao excluir o produto:', error);
             alert('Erro ao se comunicar com a API.');
         }
     }
 }
+    
