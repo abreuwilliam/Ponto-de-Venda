@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -35,16 +36,36 @@ public class TokenServices {
         }
     }
 
-    public String generateToken(UserDetails user) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secreat);
-            return JWT.create()
-                    .withIssuer("pdv")
-                    .withSubject(user.getUsername())
-                    .withExpiresAt(genExpirationDate())
-                    .sign(algorithm);
-        } catch (JWTCreationException exception) {
-            throw new RuntimeException("Erro ao gerar token");
-        }
+   public String generateToken(UserDetails user) {
+    try {
+        Algorithm algorithm = Algorithm.HMAC256(secreat);
+        return JWT.create()
+                .withIssuer("pdv")
+                .withSubject(user.getUsername())
+                .withExpiresAt(genExpirationDate())
+                .withClaim("role", user.getAuthorities().stream()
+                                     .map(GrantedAuthority::getAuthority)
+                                     .findFirst()
+                                     .orElse("ROLE_USER")) // Adiciona a role no token
+                .sign(algorithm);
+    } catch (JWTCreationException exception) {
+        throw new RuntimeException("Erro ao gerar token");
     }
+}
+
+public String extractRoleFromToken(String token) {
+    try {
+        Algorithm algorithm = Algorithm.HMAC256(secreat);
+        return JWT.require(algorithm)
+                  .withIssuer("pdv")
+                  .build()
+                  .verify(token)
+                  .getClaim("role")  // Recupera a role do token
+                  .asString();
+    } catch (JWTCreationException exception) {
+        throw new RuntimeException("Erro ao extrair role do token");
+    }
+}
+
+    
 }

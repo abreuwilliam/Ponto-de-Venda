@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
     async function consultaproduto(codigoProduto) {
     try {
         const token = localStorage.getItem('authToken'); 
-        console.log('Token recuperado:', localStorage.getItem('authToken'));// Pegue o token do localStorage ou outra fonte
+        
+        console.log("Token recuperado:", token);// Pegue o token do localStorage ou outra fonte
         const response = await fetch('http://localhost:8080/consulta', {
             headers: {
                 "Accept": "application/json",

@@ -1,7 +1,5 @@
 package Ponto.de.Venda.PDV.autenficacao;
 
-import javax.management.relation.Role;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,11 +39,9 @@ public class configuracaoseguranca implements WebMvcConfigurer {
                         
                         // Requer autenticação para qualquer outra requisição
                         .anyRequest().authenticated()
-                        
 
                         
                 )
-                
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Adiciona o filtro de segurança
                 .build();
     }
@@ -66,6 +62,5 @@ public class configuracaoseguranca implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
     }
-    
 }
 
