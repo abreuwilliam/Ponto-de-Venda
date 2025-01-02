@@ -52,7 +52,7 @@ public class securityFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                
                 // Verificação de permissão para a rota "alterar"
-                if (request.getRequestURI().contains("/alterar") && !role.equals("ADMIN")) {
+                if (request.getRequestURI().contains("/alterar") && !role.equals("ROLE_ADMIN")) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN); // Acesso negado
                     response.getWriter().write("Acesso negado. Você não tem permissão para alterar.");
                     return;
