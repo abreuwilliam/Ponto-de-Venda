@@ -90,15 +90,17 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1.0</version> <!-- Versão mais recente -->
-                <configuration>
-                    <source>21</source> <!-- Definindo a versão de compilação -->
-                    <target>21</target> <!-- Definindo a versão do bytecode gerado -->
-                </configuration>
-            </plugin>
+           <plugins>
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.1.0</version> <!--$NO-MVN-MAN-VER$ -->
+				</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
