@@ -1,8 +1,16 @@
 # Etapa 1: Usar uma imagem base com o Ubuntu
 FROM ubuntu:22.04 AS build
 
-# Atualiza os pacotes e instala dependências
-RUN apt-get update && apt-get install -y curl zip unzip bash git apt-transport-https openjdk-21-jdk maven
+# Atualiza os pacotes e instala dependências, incluindo o OpenJDK 21 e Maven
+RUN apt-get update && apt-get install -y \
+    curl \
+    zip \
+    unzip \
+    bash \
+    git \
+    apt-transport-https \
+    openjdk-21-jdk \
+    maven
 
 # Define o diretório de trabalho
 WORKDIR /app
