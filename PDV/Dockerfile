@@ -1,17 +1,14 @@
-# Etapa 1: Usar uma imagem base com o Java 21 pré-instalado
+# Etapa 1: Usar uma imagem base com OpenJDK 21 pré-instalado
 FROM openjdk:21-jdk-slim AS build
 
-# Atualiza os pacotes e instala dependências
-RUN apt-get update && apt-get install -y curl zip unzip bash git apt-transport-https
+# Atualiza os pacotes e instala dependências necessárias
+RUN apt-get update && apt-get install -y curl zip unzip bash git apt-transport-https maven
 
 # Define o diretório de trabalho
 WORKDIR /app
 
 # Copia os arquivos do projeto para o container
 COPY . /app
-
-# Instala o Maven
-RUN apt-get install -y maven
 
 # Compila o projeto com Maven
 RUN mvn clean package -DskipTests
