@@ -1,4 +1,4 @@
-# Usando uma imagem base adequada para Java e Maven
+# Usar uma imagem base adequada para Java e Maven
 FROM eclipse-temurin:17-jdk AS build
 
 # Definir o diretório de trabalho no contêiner
@@ -32,5 +32,4 @@ COPY --from=build /app/target/*.jar app.jar
 # Expor a porta padrão do aplicativo
 EXPOSE 8080
 
-# Comando para iniciar o aplicativo
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Comando para iniciar o aplicativ
