@@ -7,7 +7,19 @@ WORKDIR /app
 # Copia o conteúdo do projeto para dentro do container
 COPY . .
 
-# Expõe a porta padrão da aplicação Spring Boot (se configurada no seu projeto)
+# Instala unzip, curl e zip (caso necessário para o SDKMAN)
+RUN apt-get update && apt-get install -y unzip curl zip
+
+# Instala o SDKMAN
+RUN curl -s https://get.sdkman.io | bash
+
+# Inicializa o SDKMAN
+RUN source ~/.sdkman/bin/sdkman-init.sh
+
+# Instala o Java 21
+RUN sdk install java 21
+
+# Expõe a porta padrão da aplicação Spring Boot
 EXPOSE 8080
 
 # Comando padrão para executar o JAR
