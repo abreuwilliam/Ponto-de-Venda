@@ -1,11 +1,8 @@
 [phases.setup]
 commands = [
     "apt-get update",
-    "apt-get install -y unzip curl",  # Instala unzip e curl se necessário
+    "apt-get install -y zip unzip curl",  # Adiciona zip explicitamente
     "curl -s https://get.sdkman.io | bash",
     "source ~/.sdkman/bin/sdkman-init.sh",
     "sdk install java 21"
 ]
-
-[phases.build]
-commands = ["./mvnw clean package -DskipTests"]

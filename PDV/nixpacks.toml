@@ -1,11 +1,47 @@
-[phases.setup]
-commands = [
-    "apt-get update",
-    "apt-get install -y unzip curl",  # Instala unzip e curl se necessário
-    "curl -s https://get.sdkman.io | bash",
-    "source ~/.sdkman/bin/sdkman-init.sh",
-    "sdk install java 21"
-]
 
-[phases.build]
-commands = ["./mvnw clean package -DskipTests"]
+
+Procurando por uma instalação anterior do SDKMAN...
+
+Procurando por descompactar...
+
+Procurando por CEP...
+
+Não encontrado.
+
+================================================= ================================================= ==
+
+Instale o zip no seu sistema usando seu gerenciador de pacotes favorito.
+
+
+
+Reinicie após instalar o zip.
+
+================================================= ================================================= ==
+
+
+
+'exit 1': comando falhou com código de saída 1.
+
+✕ [estágio-0 8/13] EXECUTE curl -s https://get.sdkman.io | bash
+O processo "/bin/bash -ol pipefail -c curl -s https://get.sdkman.io | bash" não foi concluído com sucesso: código de saída: 1
+ 
+
+Arquivo Docker:18
+
+-------------------
+
+16 | EXECUTE apt-get update
+
+17 | EXECUTE apt-get install -y unzip curl
+
+18 | >>> EXECUTE curl -s https://get.sdkman.io | bash
+
+19 | EXECUTAR fonte ~/.sdkman/bin/sdkman-init.sh
+
+20 | EXECUTE sdk install java 21
+
+-------------------
+
+ERRO: falha na resolução: o processo "/bin/bash -ol pipefail -c curl -s https://get.sdkman.io | bash" não foi concluído com sucesso: código de saída: 1
+
+Erro: falha na compilação do D
