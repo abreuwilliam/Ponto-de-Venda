@@ -1,33 +1,19 @@
-# Etapa 1: Imagem base para compilação
-FROM openjdk:21-jdk-slim AS build
-
-# Instalar Maven
-RUN apt-get update && apt-get install -y maven
-
-# Define o diretório de trabalho dentro do container
-WORKDIR /app
-
-# Copia os arquivos de configuração e dependências
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# Copia o restante do código-fonte para o container
-COPY src ./src
-
-# Compila o projeto
-RUN mvn package -DskipTests
-
-# Etapa 2: Imagem para execução
+# Imagem base
 FROM openjdk:21-jdk-slim
 
-# Define o diretório de trabalho para a aplicação
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia o arquivo JAR gerado na etapa anterior
-COPY --from=build /app/target/*.jar app.jar
+# Copia os arquivos do projeto para o container
+COPY . /app/
 
-# Expõe a porta em que a aplicação será executada
-EXPOSE 8080
+# Exclui arquivos temporários desnecessários
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Comando para iniciar a aplicação
-CMD ["java", "-jar", "PDV-0.0.1-SNAPSHOT.jar"]
+# Construção do projeto (se necessário)
+# Adicione comandos específicos para compilar seu projeto
+
+# Define o comando de execução padrão
+CMD ["java", "-jar", "target/PDV-0.0.1-SNAPSHOT.jar"]
