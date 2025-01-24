@@ -4,8 +4,8 @@ FROM ubuntu:jammy
 # Definir variáveis de ambiente para evitar perguntas durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Atualizar pacotes e instalar dependências necessárias (curl, unzip)
-RUN apt-get update && apt-get install -y curl unzip tar
+# Atualizar pacotes e instalar dependências necessárias (curl, unzip, tar)
+RUN apt-get update && apt-get install -y curl tar
 
 # Definir versão do Java que você quer instalar
 ENV JAVA_VERSION 21
