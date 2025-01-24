@@ -6,3 +6,7 @@ commands = [
     "source ~/.sdkman/bin/sdkman-init.sh",
     "sdk install java 21"
 ]
+[phases.build]
+commands = [
+    "./mvnw clean package -DskipTests"
+]
