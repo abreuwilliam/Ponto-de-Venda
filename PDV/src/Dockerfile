@@ -1,33 +1,36 @@
-# Etapa 1: Imagem base para compilação
-FROM openjdk:21-jdk-slim AS build
+# Usando uma imagem base adequada para Java e Maven
+FROM eclipse-temurin:17-jdk AS build
 
-# Instalar Maven
-RUN apt-get update && apt-get install -y maven
-
-# Define o diretório de trabalho dentro do container
+# Definir o diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copia os arquivos de configuração e dependências
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
+# Instalar dependências necessárias
+RUN apt-get update && apt-get install -y unzip curl && rm -rf /var/lib/apt/lists/*
 
-# Copia o restante do código-fonte para o container
-COPY src ./src
+# Instalar o SDKMAN e Java
+RUN curl -s https://get.sdkman.io | bash \
+    && bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install java 21"
 
-# Compila o projeto
-RUN mvn package -DskipTests
+# Copiar todos os arquivos do projeto para o contêiner
+COPY . .
 
-# Etapa 2: Imagem para execução
-FROM openjdk:21-jdk-slim
+# Garantir que o script mvnw tenha permissão de execução
+RUN chmod +x mvnw
 
-# Define o diretório de trabalho para a aplicação
+# Executar o comando Maven para compilar o projeto
+RUN --mount=type=cache,target=/root/.m2/repository ./mvnw clean package -DskipTests
+
+# Fase final: criar imagem para execução do aplicativo
+FROM eclipse-temurin:17-jre
+
+# Definir o diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copia o arquivo JAR gerado na etapa anterior
+# Copiar o artefato gerado da fase de construção
 COPY --from=build /app/target/*.jar app.jar
 
-# Expõe a porta em que a aplicação será executada
+# Expor a porta padrão do aplicativo
 EXPOSE 8080
 
-# Comando para iniciar a aplicação
-CMD ["java", "-jar", "app.jar"]
+# Comando para iniciar o aplicativo
+ENTRYPOINT ["java", "-jar", "app.jar"]
