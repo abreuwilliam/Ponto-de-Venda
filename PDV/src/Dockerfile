@@ -1,27 +1,33 @@
-# Usar a imagem base do Ubuntu
-FROM ubuntu:22.04
+# Etapa 1: Imagem base para compilação
+FROM openjdk:21-jdk-slim AS build
 
-# Instalar pacotes essenciais
-RUN apt-get update && apt-get install -y \
-    curl \
-    unzip \
-    zip \
-    bash \
-    && apt-get clean
+# Instalar Maven
+RUN apt-get update && apt-get install -y maven
 
-# Baixar e instalar o OpenJDK 21 diretamente do site oficial
-RUN curl -sSL https://download.java.net/java/ga/jdk21/13/GPL/openjdk-21_linux-x64_bin.tar.gz -o /tmp/openjdk-21.tar.gz
+# Define o diretório de trabalho dentro do container
+WORKDIR /app
 
-# Criar o diretório de instalação e descompactar o JDK
-RUN mkdir -p /opt/jdk && \
-    tar -xzf /tmp/openjdk-21.tar.gz -C /opt/jdk --strip-components=1
+# Copia os arquivos de configuração e dependências
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Configurar variáveis de ambiente para o Java
-ENV JAVA_HOME=/opt/jdk
-ENV PATH=$JAVA_HOME/bin:$PATH
+# Copia o restante do código-fonte para o container
+COPY src ./src
 
-# Verificar se o Java foi instalado corretamente
-RUN java -version
+# Compila o projeto
+RUN mvn package -DskipTests
 
-# Definir o comando de inicialização
-CMD ["bash"]
+# Etapa 2: Imagem para execução
+FROM openjdk:21-jdk-slim
+
+# Define o diretório de trabalho para a aplicação
+WORKDIR /app
+
+# Copia o arquivo JAR gerado na etapa anterior
+COPY --from=build /app/target/*.jar app.jar
+
+# Expõe a porta em que a aplicação será executada
+EXPOSE 8080
+
+# Comando para iniciar a aplicação
+CMD ["java", "-jar", "PDV-0.0.1-SNAPSHOT.jar"]
