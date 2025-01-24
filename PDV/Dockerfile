@@ -16,18 +16,24 @@ COPY src ./src
 
 # Compila o projeto
 RUN mvn package -DskipTests
+# Use uma imagem base com o JDK 21
+FROM amazoncorretto:21
 
-# Etapa 2: Imagem para execução
-FROM openjdk:21-jdk-slim
-
-# Define o diretório de trabalho para a aplicação
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia o arquivo JAR gerado na etapa anterior
-COPY --from=build /app/target/*.jar app.jar
+# Copia os arquivos do projeto para o container
+COPY . /app
 
-# Expõe a porta em que a aplicação será executada
+# Instala Maven
+RUN yum install -y maven
+
+# Compila o projeto
+RUN mvn clean package -DskipTests
+
+# Expõe a porta do aplicativo
 EXPOSE 8080
 
-# Comando para iniciar a aplicação
-CMD ["java", "-jar", "app.jar"]
+# Comando para executar a aplicação
+CMD ["java", "-jar", "target/PDV-0.0.1-SNAPSHOT.jar"]
+
