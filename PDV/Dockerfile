@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y curl zip unzip bash git apt-transport-h
 # Instala o SDKMAN!
 RUN curl -s "https://get.sdkman.io" | bash
 
-# Configura o SDKMAN! no Dockerfile
+# Instala o Java 21 usando o SDKMAN! e a linha bash -c para garantir o ambiente
 RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install java 21"
 
 # Define o diretório de trabalho
@@ -16,10 +16,10 @@ WORKDIR /app
 # Copia os arquivos do projeto para o container
 COPY . /app
 
-# Instala Maven
+# Instala o Maven
 RUN apt-get install -y maven
 
-# Compila o projeto
+# Compila o projeto com Maven
 RUN mvn clean package -DskipTests
 
 # Etapa 2: Imagem para execução
