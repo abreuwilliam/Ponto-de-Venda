@@ -10,24 +10,15 @@ RUN apt-get update && \
     unzip \
     curl \
     zip \
+    openjdk-21-jdk \
     bash \
     && apt-get clean
-
-# Instalar o SDKMAN
-RUN curl -s "https://get.sdkman.io" | bash
-
-# Definir variáveis de ambiente
-ENV SDKMAN_DIR=/root/.sdkman
-ENV PATH=$SDKMAN_DIR/bin:$PATH
-
-# Instalar o Java via SDKMAN
-RUN bash -c "source $SDKMAN_DIR/bin/sdkman-init.sh && sdk install java 21"
 
 # Verificar se o Java foi instalado corretamente
 RUN java -version
 
 # Exibir uma mensagem de sucesso
-RUN echo "Java e SDKMAN instalados com sucesso"
+RUN echo "Java instalado com sucesso sem o SDKMAN"
 
 # Definir o comando padrão
 CMD ["bash"]
