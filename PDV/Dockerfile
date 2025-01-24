@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y maven
 WORKDIR /app
 
 # Copia os arquivos de configuração e dependências
-COPY pom.xml .
+COPY pom.xml . 
 RUN mvn dependency:go-offline -B
 
 # Copia o restante do código-fonte para o container
