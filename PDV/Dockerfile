@@ -11,7 +11,7 @@ RUN curl -s https://get.sdkman.io | bash \
 COPY . .
 
 # Garantir permissões de execução para o Maven Wrapper
-RUN chmod +x mvnw
+RUN chmod +x /app/mvnw
 
 # Construir o projeto
 RUN --mount=type=cache,target=/root/.m2/repository ./mvnw clean package -DskipTests
