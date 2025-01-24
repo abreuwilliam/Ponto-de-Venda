@@ -1,7 +1,7 @@
-# Use a imagem base do Ubuntu
+# Usar a imagem base do Ubuntu
 FROM ubuntu:22.04
 
-# Instalar pacotes necessários
+# Instalar pacotes essenciais
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
