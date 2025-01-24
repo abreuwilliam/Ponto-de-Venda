@@ -1,26 +1,11 @@
-# Imagem base com OpenJDK 21
-FROM eclipse-temurin:21-jdk-jammy AS build
+# Use a imagem oficial com Java 21 pré-instalado
+FROM eclipse-temurin:21-jdk
 
-# Diretório de trabalho
+# Configure o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar os arquivos do projeto para o container
-COPY . /app
+# Copie todos os arquivos do projeto para o container
+COPY . .
 
-# Compilar o projeto com Maven (opcional: ajustar para seu projeto)
-RUN ./mvnw clean package -DskipTests
-
-# Segunda fase: imagem para execução
-FROM eclipse-temurin:21-jre-jammy
-
-# Diretório de trabalho
-WORKDIR /app
-
-# Copiar o arquivo JAR gerado da fase anterior
-COPY --from=build /app/target/*.jar app.jar
-
-# Expor a porta padrão do aplicativo
-EXPOSE 8080
-
-# Comando para iniciar a aplicação
-CMD ["java", "-jar", "app.jar"]
+# Especifique o comando para rodar o JAR (substitua "seu-arquivo.jar" pelo nome correto do seu JAR)
+CMD ["java", "-jar", "seu-arquivo.jar"]
