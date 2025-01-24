@@ -1,37 +1,26 @@
-# Etapa 1: Usar uma imagem base com o Ubuntu
-FROM ubuntu:22.04 AS build
+# Imagem base com OpenJDK 21
+FROM eclipse-temurin:21-jdk-jammy AS build
 
-# Atualiza os pacotes e instala dependências, incluindo o OpenJDK 21 e Maven
-RUN apt-get update && apt-get install -y \
-    curl \
-    zip \
-    unzip \
-    bash \
-    git \
-    apt-transport-https \
-    openjdk-21-jdk \
-    maven
-
-# Define o diretório de trabalho
+# Diretório de trabalho
 WORKDIR /app
 
-# Copia os arquivos do projeto para o container
+# Copiar os arquivos do projeto para o container
 COPY . /app
 
-# Compila o projeto com Maven
-RUN mvn clean package -DskipTests
+# Compilar o projeto com Maven (opcional: ajustar para seu projeto)
+RUN ./mvnw clean package -DskipTests
 
-# Etapa 2: Imagem para execução
-FROM openjdk:21-jdk-slim
+# Segunda fase: imagem para execução
+FROM eclipse-temurin:21-jre-jammy
 
-# Define o diretório de trabalho para a aplicação
+# Diretório de trabalho
 WORKDIR /app
 
-# Copia o arquivo JAR gerado
+# Copiar o arquivo JAR gerado da fase anterior
 COPY --from=build /app/target/*.jar app.jar
 
-# Expõe a porta do aplicativo
+# Expor a porta padrão do aplicativo
 EXPOSE 8080
 
-# Comando para executar a aplicação
+# Comando para iniciar a aplicação
 CMD ["java", "-jar", "app.jar"]
