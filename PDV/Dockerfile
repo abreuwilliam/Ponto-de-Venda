@@ -1,26 +1,32 @@
-# Usar uma imagem base oficial do OpenJDK com suporte ao Java 21
-FROM eclipse-temurin:21-jdk-jammy
+# Usar a imagem base do Ubuntu
+FROM ubuntu:jammy
 
-# Atualizar e instalar dependências necessárias
+# Definir variáveis de ambiente para evitar perguntas durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Atualizar pacotes e instalar dependências necessárias (unzip, curl, zip)
 RUN apt-get update && apt-get install -y unzip curl zip
 
-# Mensagem para verificar o progresso
-RUN echo "Dependências instaladas com sucesso!"
-
-# Instalar o SDKMAN
+# Baixar e instalar o SDKMAN
 RUN curl -s https://get.sdkman.io | bash
 
-# Configurar o SDKMAN no ambiente
-RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install java 21"
+# Configurar o SDKMAN
+RUN echo "source ~/.sdkman/bin/sdkman-init.sh" >> ~/.bashrc
 
-# Definir diretório de trabalho
+# Instalar a versão do Java desejada com SDKMAN
+RUN bash -c "source ~/.bashrc && sdk install java 21"
+
+# Verificar a instalação do Java
+RUN bash -c "source ~/.bashrc && java -version"
+
+# Configuração do diretório de trabalho (opcional, mas útil)
 WORKDIR /app
 
-# Copiar arquivos da aplicação
-COPY . .
+# Copiar o código da aplicação para o contêiner
+# COPY . /app
 
-# Expor a porta usada pela aplicação
-EXPOSE 8080
+# Definir o comando para iniciar o contêiner
+# CMD ["java", "-jar", "seu-arquivo.jar"]
 
-# Comando para rodar a aplicação
-CMD ["java", "-jar", "target/PDV-0.0.1-SNAPSHOT.jar"]
+# Expor a porta que o aplicativo irá usar
+# EXPOSE 8080
