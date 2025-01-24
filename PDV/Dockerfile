@@ -1,19 +1,14 @@
-# Imagem base
-FROM openjdk:21-jdk-slim
+# Usa uma imagem oficial do OpenJDK com suporte ao Java 21
+FROM eclipse-temurin:21-jdk-jammy
 
 # Define o diretório de trabalho
 WORKDIR /app
 
-# Copia os arquivos do projeto para o container
-COPY . /app/
+# Copia o conteúdo do projeto para dentro do container
+COPY . .
 
-# Exclui arquivos temporários desnecessários
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+# Expõe a porta padrão da aplicação Spring Boot (se configurada no seu projeto)
+EXPOSE 8080
 
-# Construção do projeto (se necessário)
-# Adicione comandos específicos para compilar seu projeto
-
-# Define o comando de execução padrão
+# Comando padrão para executar o JAR
 CMD ["java", "-jar", "target/PDV-0.0.1-SNAPSHOT.jar"]
