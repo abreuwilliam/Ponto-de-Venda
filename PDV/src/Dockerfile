@@ -1,20 +1,26 @@
-# Usa uma imagem oficial do OpenJDK com suporte ao Java 21
+# Usar uma imagem base oficial do OpenJDK com suporte ao Java 21
 FROM eclipse-temurin:21-jdk-jammy
 
-# Define o diretório de trabalho
+# Mensagem para garantir que o Dockerfile está sendo lido
+RUN echo "Dockerfile está sendo lido com sucesso!" 
+
+# Definir o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia o conteúdo do projeto para dentro do container
+# Copiar todo o conteúdo do diretório atual para o diretório /app no container
 COPY . .
 
-# Instala o Maven (se necessário para o build)
-RUN apt-get update && apt-get install -y maven
+# Instalar dependências adicionais (se necessário)
+RUN apt-get update && apt-get install -y curl unzip
 
-# Executa o Maven para empacotar o projeto (omitindo os testes)
-RUN mvn clean package -DskipTests
-
-# Expõe a porta padrão da aplicação Spring Boot (se configurada no seu projeto)
+# Expõe a porta 8080 do container (caso a aplicação utilize essa porta)
 EXPOSE 8080
 
-# Comando padrão para executar o JAR
+# Mensagem para verificar se a etapa de instalação de pacotes foi concluída
+RUN echo "Dependências instaladas!"
+
+# Comando para compilar a aplicação usando Maven (caso você use Maven)
+RUN ./mvnw clean package -DskipTests
+
+# Comando para iniciar a aplicação Java com o JAR gerado (ajustar o nome do JAR conforme necessário)
 CMD ["java", "-jar", "target/PDV-0.0.1-SNAPSHOT.jar"]
