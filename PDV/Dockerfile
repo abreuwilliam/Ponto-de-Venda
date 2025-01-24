@@ -7,8 +7,12 @@ RUN apt-get update && apt-get install -y curl zip unzip bash git apt-transport-h
 # Instala o SDKMAN!
 RUN curl -s "https://get.sdkman.io" | bash
 
-# Garantir que o SDKMAN! seja inicializado corretamente e instalar o Java 21
-RUN bash -i -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install java 21"
+# Garantir que o SDKMAN! seja carregado corretamente em futuras execuções
+ENV SDKMAN_DIR="/root/.sdkman"
+ENV PATH="${SDKMAN_DIR}/bin:${PATH}"
+
+# Instalar o Java 21 usando o SDKMAN!
+RUN bash -c "source $SDKMAN_DIR/bin/sdkman-init.sh && sdk install java 21"
 
 # Define o diretório de trabalho
 WORKDIR /app
