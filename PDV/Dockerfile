@@ -19,6 +19,9 @@ RUN --mount=type=cache,target=/root/.m2/repository ./mvnw clean package -DskipTe
 # Etapa de execução
 FROM eclipse-temurin:17-jre
 
+RUN ls -l /app/mvnw && file /app/mvnw && cat /app/mvnw
+
+
 WORKDIR /app
 
 # Copiar o JAR compilado
