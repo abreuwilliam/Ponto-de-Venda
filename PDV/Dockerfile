@@ -1,35 +1,33 @@
-# Usar a imagem base do Ubuntu
-FROM ubuntu:jammy
+# Use uma imagem base do Ubuntu
+FROM ubuntu:22.04
 
-# Definir variáveis de ambiente para evitar perguntas durante a instalação
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Atualizar pacotes e instalar dependências necessárias (curl, unzip, tar)
-RUN apt-get update && apt-get install -y curl tar
-
-# Definir versão do Java que você quer instalar
-ENV JAVA_VERSION 21
-
-# Baixar e instalar o OpenJDK 21 manualmente
-RUN curl -L https://download.java.net/java/ga/jdk21/36/GPL/openjdk-21_linux-x64_bin.tar.gz -o /tmp/openjdk-21.tar.gz && \
-    mkdir -p /usr/lib/jvm && \
-    tar -xvzf /tmp/openjdk-21.tar.gz -C /usr/lib/jvm && \
-    rm /tmp/openjdk-21.tar.gz
-
-# Definir a variável de ambiente JAVA_HOME
-ENV JAVA_HOME=/usr/lib/jvm/jdk-21
-
-# Adicionar o Java ao PATH
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
-
-# Verificar a instalação do Java
-RUN java -version
-
-# Configuração do diretório de trabalho
+# Definir o diretório de trabalho
 WORKDIR /app
 
-# Definir o comando para iniciar o contêiner (exemplo)
-# CMD ["java", "-jar", "seu-arquivo.jar"]
+# Atualizar pacotes e instalar dependências necessárias
+RUN apt-get update && \
+    apt-get install -y \
+    unzip \
+    curl \
+    zip \
+    bash \
+    && apt-get clean
 
-# Expor a porta que o aplicativo irá usar
-# EXPOSE 8080
+# Instalar o SDKMAN
+RUN curl -s "https://get.sdkman.io" | bash
+
+# Definir variáveis de ambiente
+ENV SDKMAN_DIR=/root/.sdkman
+ENV PATH=$SDKMAN_DIR/bin:$PATH
+
+# Instalar o Java via SDKMAN
+RUN bash -c "source $SDKMAN_DIR/bin/sdkman-init.sh && sdk install java 21"
+
+# Verificar se o Java foi instalado corretamente
+RUN java -version
+
+# Exibir uma mensagem de sucesso
+RUN echo "Java e SDKMAN instalados com sucesso"
+
+# Definir o comando padrão
+CMD ["bash"]
