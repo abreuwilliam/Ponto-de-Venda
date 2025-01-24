@@ -1,4 +1,4 @@
-package Ponto.de.Venda.PDV;
+package Ponto.de.Venda.PDV.update;
 
 public class ConsultaRequest {
     private String consulta;
