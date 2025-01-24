@@ -11,7 +11,7 @@ RUN curl -s "https://get.sdkman.io" | bash
 ENV SDKMAN_DIR="/root/.sdkman"
 ENV PATH="${SDKMAN_DIR}/bin:${PATH}"
 
-# Instalar o Java 21 usando o SDKMAN!
+# Executa o SDKMAN! para inicializar o ambiente corretamente antes de instalar o Java
 RUN bash -c "source $SDKMAN_DIR/bin/sdkman-init.sh && sdk install java 21"
 
 # Define o diretório de trabalho
