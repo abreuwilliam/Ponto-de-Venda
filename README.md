@@ -26,6 +26,10 @@ O sistema conta com um robusto esquema de segurança, incluindo:
 - Documentação da API:  Modelo C4
 - Front-end: HTML, CSS, JavaScript
 
+  🔗 Acesse o Projeto
+  
+https://pdv-ponto-de-venda.netlify.app/
+
 📂 Documentação e Modelo Relacional
 ![Documentação](PDV/documentação.jpeg)
 
@@ -34,8 +38,6 @@ O sistema conta com um robusto esquema de segurança, incluindo:
 ![Documentação](PDV/documentação2.jpeg)
 
 ![Documentação](PDV/documentação3.jpeg)
-🔗 Acesse o Projeto
-https://pdv-ponto-de-venda.netlify.app/
 
 Este projeto demonstra minha capacidade de desenvolver um sistema completo, desde a concepção e documentação até a implementação, segurança e integração do front-end com a API. 🚀
 
