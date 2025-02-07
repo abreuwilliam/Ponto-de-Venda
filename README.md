@@ -20,7 +20,7 @@ O sistema conta com um robusto esquema de segurança, incluindo:
 - Usuário comum: Apenas realiza operações de venda, sem acesso ao CRUD de produtos.
 
  🛠️ Tecnologias Utilizadas
-- Back-end:** Java Spring Boot
+- Back-end: Java Spring Boot
 - Banco de Dados: MySQL
 - Autenticação: Spring Security + JWT
 - Documentação da API:  Modelo C4
