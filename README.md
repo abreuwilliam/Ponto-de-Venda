@@ -27,8 +27,7 @@ O sistema conta com um robusto esquema de segurança, incluindo:
 - Front-end: HTML, CSS, JavaScript
 
 📂 Documentação e Modelo Relacional
-![Documentação](PDV/WhatsAppImage2025-02-07at09.10.01(3).jpeg
-)
+![Documentação](PDV/documentação.jpeg)
 🔗 Acesse o Projeto
 https://pdv-ponto-de-venda.netlify.app/
 
