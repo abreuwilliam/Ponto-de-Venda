@@ -29,7 +29,7 @@ O sistema conta com um robusto esquema de segurança, incluindo:
   🔗 Acesse o Projeto
 https://pdv-ponto-de-venda.netlify.app/
 
-📂 Documentação e Modelo Relacional
+📂 Documentação C4
 
 ![Documentação](PDV/documentação.jpeg)
 
