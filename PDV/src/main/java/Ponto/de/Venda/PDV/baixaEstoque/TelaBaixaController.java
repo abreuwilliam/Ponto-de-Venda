@@ -23,19 +23,25 @@ public class TelaBaixaController {
    @Autowired
    private Ponto.de.Venda.PDV.Caixa.cadastra cadastra;
 
-   @PostMapping
-	 public String postMethod(@RequestBody List<Map<String, Object>> produtos) {
+  @PostMapping
+public String postMethod(@RequestBody List<Map<String, Object>> produtos) {
     for (Map<String, Object> produto : produtos) {
-        String descricao = (String) produto.get("descricao");
-        Double preco = (Double) produto.get("preco");
-        int quantidade = (int) produto.get("quantidade");
-  
+        if (!produto.containsKey("descricao") || !produto.containsKey("preco") || !produto.containsKey("quantidade")) {
+            return "Erro: JSON inválido";
+        }
+        
+        String descricao = String.valueOf(produto.get("descricao"));
+        Double preco = Double.parseDouble(produto.get("preco").toString());
+        int quantidade = Integer.parseInt(produto.get("quantidade").toString());
+
         ModelBaixa modelProduto = repositoryBaixa.findByProduto(descricao);
         if (modelProduto != null) {
-            modelProduto.setQuantidadeEstoque(modelProduto.getQuantidadeEstoque() - quantidade); 
-            repositoryBaixa.save(modelProduto); 
+            modelProduto.setQuantidadeEstoque(modelProduto.getQuantidadeEstoque() - quantidade);
+            repositoryBaixa.save(modelProduto);
         }
     }
     return "Estoque atualizado com sucesso!";
+}
+
 }
 }
