@@ -60,15 +60,30 @@ document.getElementById('atualizarEstoqueBtn').addEventListener('click', async (
     alert(`Estoque atualizado com sucesso! Novo total: ${novoTotal}`);
 });
 
-// Função que envia PUT com os dados do produto
-async function alterarProduto(quantidadeEstoqueAtualizada) {
+
+async function alterarProduto(quantidadeEstoqueAtualizada = null) {
     const codigoProduto = document.getElementById('codigoProduto').value;
     const produto = document.getElementById('produto').value;
     const preco = document.getElementById('preco').value;
     const token = localStorage.getItem('authToken');
 
-    if (!codigoProduto || !produto || !preco || !quantidadeEstoqueAtualizada) {
-        alert('Todos os campos devem estar preenchidos.');
+    // Se a quantidade não foi passada, usa a do campo
+    if (quantidadeEstoqueAtualizada === null) {
+        quantidadeEstoqueAtualizada = parseInt(document.getElementById('quantidadeEstoque').value);
+    }
+
+    console.log("codigoProduto:", codigoProduto);
+    console.log("produto:", produto);
+    console.log("preco:", preco);
+    console.log("quantidadeEstoqueAtualizada:", quantidadeEstoqueAtualizada);
+
+    if (
+        codigoProduto.trim() === '' ||
+        produto.trim() === '' ||
+        preco === '' || isNaN(Number(preco)) || Number(preco) <= 0 ||
+        quantidadeEstoqueAtualizada === null || isNaN(Number(quantidadeEstoqueAtualizada)) || Number(quantidadeEstoqueAtualizada) < 0
+    ) {
+        alert('Todos os campos devem estar preenchidos corretamente.');
         return;
     }
 
@@ -95,11 +110,15 @@ async function alterarProduto(quantidadeEstoqueAtualizada) {
         }
 
         console.log('Produto atualizado com sucesso!');
+        alert('Produto atualizado com sucesso!');
     } catch (error) {
         console.error('Erro ao alterar o produto:', error);
         alert(`Erro ao alterar: ${error.message}`);
     }
 }
+
+
+
 
 // Função de exclusão
 async function deletarProduto() {

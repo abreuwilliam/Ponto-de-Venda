@@ -1,11 +1,13 @@
 package com.pdv.papelaria.service;
 
+import com.pdv.papelaria.aop.LogExecutionTime;
 import com.pdv.papelaria.dto.PedidosDto;
 import com.pdv.papelaria.entities.Pedidos;
-import com.pdv.papelaria.entities.Produto;
 import com.pdv.papelaria.repository.PedidosRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,17 +21,29 @@ public class PedidosService {
     @Autowired
     PedidosRepository pedidosRepository;
 
-    public List<Pedidos> exibirTodosPedidos(){
+    @LogExecutionTime
+    @Cacheable(value = "produtocache")
+    public List<Pedidos> exibirTodosPedidos() {
         return pedidosRepository.findAll();
     }
-    public void salvarEstoque(PedidosDto pedidosDto){
+
+    @LogExecutionTime
+    @Cacheable(value = "produtocache")
+    public void salvarEstoque(PedidosDto pedidosDto) {
         Pedidos pedidos = modelMapper.map(pedidosDto, Pedidos.class);
         pedidosRepository.save(pedidos);
     }
-    public Pedidos pesquisarPedidos(String pedidos){
+
+    @LogExecutionTime
+    @Cacheable(value = "produtocache")
+    public Pedidos pesquisarPedidos(String pedidos) {
         return pedidosRepository.findByPedidos(pedidos);
     }
-    public void deletarTodosPedidos(){
+
+    @LogExecutionTime
+    @Cacheable(value = "produtocache")
+    @Transactional
+    public void deletarTodosPedidos() {
         pedidosRepository.deleteAll();
     }
 }

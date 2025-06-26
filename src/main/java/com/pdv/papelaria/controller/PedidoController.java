@@ -3,7 +3,9 @@ package com.pdv.papelaria.controller;
 
 import com.pdv.papelaria.dto.PedidosDto;
 import com.pdv.papelaria.service.PedidosService;
-import com.pdv.papelaria.service.ProdutoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,10 @@ public class PedidoController {
     @Autowired
     PedidosService pedidosService;
 
+    @Operation(summary = "cadastrat pedido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Processado com sucesso")
+    })
     @PostMapping
     public ResponseEntity<String> CadastrarPedido(@RequestBody PedidosDto pedidos) {
         try {
@@ -32,6 +38,10 @@ public class PedidoController {
         }
     }
 
+    @Operation(summary = "Deletar Pedido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Processado com sucesso")
+    })
     @DeleteMapping
     public ResponseEntity<String> deletarTodosPedidos() {
         try {
@@ -42,6 +52,4 @@ public class PedidoController {
                     .body("Erro ao deletar os pedidos: " + e.getMessage());
         }
     }
-
-
 }

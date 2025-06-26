@@ -13,35 +13,42 @@ document.addEventListener("DOMContentLoaded", () => {
             linha.insertCell(3).innerText = produto.quantidadeEstoque; // Use o campo correto
         });
     }
+async function consultaproduto(codigoProduto) {
+  try {
+    const token = localStorage.getItem('authToken'); 
+    console.log("Token recuperado:", token);
+    console.log("Enviando para API (sem aspas):", codigoProduto);
 
-    // Função para buscar produtos na API
-    async function consultaproduto(codigoProduto) {
-    try {
-        const token = localStorage.getItem('authToken'); 
-        
-        console.log("Token recuperado:", token);// Pegue o token do localStorage ou outra fonte
-        const response = await fetch('http://localhost:8080/produto/consulta', {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}` // Adicione o token JWT aqui
-            },
-            method: 'POST',
-           body: codigoProduto // Certifique-se de enviar um JSON válido
-        });
+    const response = await fetch('http://localhost:8080/produto/consulta', {
+      method: 'POST',
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "text/plain", // ✅ Enviando string crua, sem aspas
+        "Authorization": `Bearer ${token}`
+      },
+      body: String(codigoProduto) // ✅ Envia 'la' em vez de '"la"'
+    });
 
-        console.log("Status da resposta:", response.status); // Log do status
+    console.log("Status da resposta:", response.status);
 
-        if (!response.ok) {
-            throw new Error('Erro ao buscar produtos');
-        }
-
-        const produtos = await response.json();
-        popularTabela(produtos);
-    } catch (error) {
-        console.error('Erro:', error);
+    if (response.status === 204) {
+      console.warn("Nenhum produto encontrado");
+      popularTabela([]); // Limpa ou exibe mensagem
+      return;
     }
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar produtos');
+    }
+
+    const produtos = await response.json();
+    popularTabela(produtos);
+
+  } catch (error) {
+    console.error('Erro:', error);
+  }
 }
+
 
 
     // Função de debounce para limitar a quantidade de requisições

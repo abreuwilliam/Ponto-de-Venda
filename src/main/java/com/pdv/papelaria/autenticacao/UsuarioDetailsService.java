@@ -1,9 +1,7 @@
 package com.pdv.papelaria.autenticacao;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import com.pdv.papelaria.entities.Usuario;
+import com.pdv.papelaria.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,8 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.pdv.papelaria.entities.Usuario;
-import com.pdv.papelaria.repository.UsuarioRepository;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UsuarioDetailsService implements UserDetailsService {

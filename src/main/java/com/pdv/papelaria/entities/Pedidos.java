@@ -1,12 +1,6 @@
 package com.pdv.papelaria.entities;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "pedidos")
@@ -26,6 +20,7 @@ public class Pedidos {
     public void setPedidos(String pedidos) {
         this.pedidos = pedidos;
     }
+
     public int getId() {
         return id;
     }
