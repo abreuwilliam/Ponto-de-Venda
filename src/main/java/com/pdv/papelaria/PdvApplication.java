@@ -4,7 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -13,10 +14,16 @@ import io.swagger.v3.oas.annotations.info.Info;
 @EnableAspectJAutoProxy
 @OpenAPIDefinition(info = @Info(title = "API", version = "1.0"))
 @EnableCaching
-public class PdvApplication  {
+public class PdvApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PdvApplication .class, args);
+		System.out.println(">>> Iniciando aplicação PDV...");
+		SpringApplication.run(PdvApplication.class, args);
+		System.out.println(">>> Aplicação PDV iniciada com sucesso.");
+	}
 
+	@EventListener(ApplicationReadyEvent.class)
+	public void onApplicationReady() {
+		System.out.println(">>> Aplicação está pronta para receber requisições.");
 	}
 }
