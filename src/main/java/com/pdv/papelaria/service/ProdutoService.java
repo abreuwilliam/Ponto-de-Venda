@@ -88,14 +88,26 @@ public class ProdutoService {
     @Transactional
     @CacheEvict(value = "produtocache", allEntries = true)
     public void baixarEstoque(String descricao, int quantidade) {
-        ProdutoDto produtoDto = buscarPorDescricao(descricao);
         if (quantidade <= 0) {
             throw new RequisicaoInvalidaException("Quantidade deve ser maior que zero.");
         }
-        produtoDto.setQuantidadeEstoque(produtoDto.getQuantidadeEstoque() - quantidade);
-        salvar(produtoDto);
-        log.info("Estoque baixado com sucesso");
+
+        Produto produto = produtoRepository.findProdutoByProduto(descricao);
+        if (produto == null) {
+            throw new RequisicaoInvalidaException("Produto não encontrado: " + descricao);
+        }
+
+        int novaQuantidade = produto.getQuantidadeEstoque() - quantidade;
+        if (novaQuantidade < 0) {
+            throw new RequisicaoInvalidaException("Estoque insuficiente para o produto: " + descricao);
+        }
+
+        produto.setQuantidadeEstoque(novaQuantidade);
+        produtoRepository.save(produto);
+
+        log.info("Estoque de '{}' atualizado para {} unidades", descricao, novaQuantidade);
     }
+
 
     @LogExecutionTime
     @Cacheable(value = "produtocache", key = "#produto")
