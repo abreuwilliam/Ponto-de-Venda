@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: papelaria-backend
+    env: docker
+    plan: free
+    branch: main
+    region: oregon  # ou mude para outra região disponível se necessário
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: JAVA_OPTS
+        value: "-Xmx512m"
+      - key: SERVER_PORT
+        value: "8080"
