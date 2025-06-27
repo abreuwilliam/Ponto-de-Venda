@@ -23,7 +23,7 @@ INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
 VALUES (5, 6, 'borracha', 0.99, 15);
 
 INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
-VALUES (6, 7, 'régua', 2.50, 8);
+VALUES (6, 7, 'regua', 2.50, 8);
 
 INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
 VALUES (7, 8, 'tesoura', 4.20, 12);
@@ -62,7 +62,7 @@ INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
 VALUES (18, 19, 'papel adesivo', 2.90, 6);
 
 INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
-VALUES (19, 20, 'papel fotográfico', 3.50, 3);
+VALUES (19, 20, 'papel fotografico', 3.50, 3);
 
 INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
-VALUES (20, 21, 'papel cartão', 2.40, 9);
+VALUES (20, 21, 'papel cartao', 2.40, 9);
