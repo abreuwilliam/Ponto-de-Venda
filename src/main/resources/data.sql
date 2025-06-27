@@ -2,6 +2,9 @@
 INSERT INTO usuario (id, username, password, role)
 VALUES (1, 'william_admin', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'ADMIN');
 
+INSERT INTO usuario (id, username, password, role)
+VALUES (2, 'william_user', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'USER');
+
 -- Inserir produtos no estoque
 INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
 VALUES (1, 2, 'caneta', 3.80, 5);
