@@ -16,7 +16,7 @@ async function buscarProduto() {
     }
 
     try {
-        const response = await fetch(`http://localhost:8080/produto/${codigoProduto}`, {
+        const response = await fetch(`https://ponto-de-venda-1.onrender.com/produto/${codigoProduto}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -95,7 +95,7 @@ async function alterarProduto(quantidadeEstoqueAtualizada = null) {
     };
 
     try {
-        const response = await fetch(`http://localhost:8080/produto/${codigoProduto}`, {
+        const response = await fetch(`https://ponto-de-venda-1.onrender.com/produto/${codigoProduto}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ async function deletarProduto() {
     if (!confirm(`Confirma excluir o produto ${codigoProduto}?`)) return;
 
     try {
-        const response = await fetch(`http://localhost:8080/produto/${codigoProduto}`, {
+        const response = await fetch(`https://ponto-de-venda-1.onrender.com/produto/${codigoProduto}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,

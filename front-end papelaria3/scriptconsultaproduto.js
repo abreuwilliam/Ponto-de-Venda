@@ -19,7 +19,7 @@ async function consultaproduto(codigoProduto) {
     console.log("Token recuperado:", token);
     console.log("Enviando para API (sem aspas):", codigoProduto);
 
-    const response = await fetch('http://localhost:8080/produto/consulta', {
+    const response = await fetch('https://ponto-de-venda-1.onrender.com/produto/consulta', {
       method: 'POST',
       headers: {
         "Accept": "application/json",

@@ -131,7 +131,7 @@ function adicionarProduto() {
 // Função para enviar os dados
 function enviarDados(codigoProduto, quantidade) {
     const token = localStorage.getItem('authToken');
-    fetch('http://localhost:8080/produto/caixa', {
+    fetch('https://ponto-de-venda-1.onrender.com/produto/caixa', {
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -283,7 +283,7 @@ function finalizarVenda() {
         console.log(produtosNaVenda);
 
         // Envia todos os produtos da venda atual
-        fetch('http://localhost:8080/produto/baixa', {
+        fetch('https://ponto-de-venda-1.onrender.com/produto/baixa', {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",

@@ -52,7 +52,7 @@ function atualizarTabela() {
 // Função para enviar os dados para o servidor
 function enviarDados(produto) {
     const token = localStorage.getItem('authToken');
-    fetch('http://localhost:8080/produto/cadastro', {
+    fetch('https://ponto-de-venda-1.onrender.com/produto/cadastro', {
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",

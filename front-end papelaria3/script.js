@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const senha = senhaInput.value;
         
         // Enviar os dados para o backend via POST
-        fetch('http://localhost:8080/auth/login', {
+        fetch('https://ponto-de-venda-1.onrender.com/auth/login', {
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"

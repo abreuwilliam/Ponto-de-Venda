@@ -37,7 +37,7 @@ function enviarDados(descricao) {
     const dados = JSON.stringify({ pedidos: descricao });
     console.log('Dados enviados:', dados); // Para ver o JSON no console
     const token = localStorage.getItem('authToken');
-    fetch('http://localhost:8080/pedidos', {
+    fetch('https://ponto-de-venda-1.onrender.com/pedidos', {
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ function enviarDados(descricao) {
 function listarPedidos() {
     const token = localStorage.getItem('authToken'); // Recupera o token JWT do localStorage
 
-    fetch('http://localhost:8080/pedidos', {
+    fetch('https://ponto-de-venda-1.onrender.com/pedidos', {
         method: 'GET',
         headers: {
             "Accept": "application/json",
@@ -85,7 +85,7 @@ function listarPedidos() {
 // Função para deletar todos os pedidos
 function deletarTodosPedidos() {
     const token = localStorage.getItem('authToken');
-    fetch('http://localhost:8080/pedidos', {
+    fetch('https://ponto-de-venda-1.onrender.com/pedidos', {
         method: 'DELETE',
         "Authorization": `Bearer ${token}`
     })
