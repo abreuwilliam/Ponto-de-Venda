@@ -38,8 +38,8 @@ public class UsuarioServiceTest {
     public void testFindAll() {
         // Criando um usuário fictício
         Usuario usuario = new Usuario();
-        usuario.setNome("Teste");
-        usuario.setSenha("123");
+        usuario.setUsername("Teste");
+        usuario.setPassword("123");
         usuario.setRole("ADMIN");
 
         // Configurando o comportamento do mock
@@ -50,12 +50,12 @@ public class UsuarioServiceTest {
         List<Usuario> usuarios = usuarioService.findAll();
         assertNotNull(usuarios);
         assertEquals(1, usuarios.size());
-        assertEquals("Teste", usuarios.get(0).getNome());
+        assertEquals("Teste", usuarios.get(0).getUsername());
 
         // Testando o método save
         Usuario usuarioSalvo = usuarioService.save(usuarios.get(0));
         assertNotNull(usuarioSalvo);
-        assertEquals("senha-criptografada", usuarioSalvo.getSenha());
+        assertEquals("senha-criptografada", usuarioSalvo.getPassword());
 
         // Verificando se o save foi chamado corretamente
         verify(usuarioRepository, times(1)).save(any(Usuario.class));
