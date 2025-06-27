@@ -139,7 +139,7 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.31</version>
         </dependency>
-        
+
         <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -171,7 +171,7 @@
     <resources>
         <resource>
             <directory>src/main/resources</directory>
-            <filtering>true</filtering>
+            <filtering>false</filtering>
         </resource>
     </resources>
     <plugins>
