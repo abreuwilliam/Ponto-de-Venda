@@ -4,10 +4,12 @@ services:
     env: docker
     plan: free
     branch: main
-    region: oregon  # ou mude para outra região disponível se necessário
+    region: oregon  # ou outra região disponível
     dockerfilePath: ./Dockerfile
     envVars:
       - key: JAVA_OPTS
         value: "-Xmx512m"
       - key: SERVER_PORT
         value: "8080"
+      - key: SPRING_PROFILES_ACTIVE
+        value: "qa"
