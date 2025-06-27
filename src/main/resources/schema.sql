@@ -6,10 +6,6 @@ CREATE TABLE IF NOT EXISTS usuario (
     role VARCHAR(50) NOT NULL
 );
 
--- Inserção de usuários
-INSERT INTO usuario (username, password, role) VALUES
-('william_admin', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'ADMIN'),
-('william_user', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'USER');
 
 -- Criação da tabela estoque
 CREATE TABLE IF NOT EXISTS estoque (
@@ -20,25 +16,4 @@ CREATE TABLE IF NOT EXISTS estoque (
     quantidade_Estoque INT NOT NULL
 );
 
--- Inserção de produtos no estoque
-INSERT INTO estoque (codigo_Produto, produto, preco, quantidade_Estoque) VALUES
-(2, 'caneta', 3.80, 5),
-(3, 'caderno de materia', 5.89, 0),
-(4, 'caderno de desenho', 7.50, 10),
-(5, 'lapis', 1.50, 20),
-(6, 'borracha', 0.99, 15),
-(7, 'régua', 2.50, 8),
-(8, 'tesoura', 4.20, 12),
-(9, 'cola', 3.00, 6),
-(10, 'marcador', 2.80, 9),
-(11, 'papel sulfite', 1.20, 25),
-(12, 'pastas', 3.50, 4),
-(13, 'clipes', 0.50, 30),
-(14, 'fita adesiva', 1.80, 7),
-(15, 'marca texto', 2.20, 11),
-(16, 'papel cartolina', 2.00, 5),
-(17, 'papel crepom', 1.50, 8),
-(18, 'papel colorido', 1.70, 10),
-(19, 'papel adesivo', 2.90, 6),
-(20, 'papel fotográfico', 3.50, 3),
-(21, 'papel cartão', 2.40, 9);
+
