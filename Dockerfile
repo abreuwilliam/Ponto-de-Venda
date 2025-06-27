@@ -10,7 +10,11 @@ RUN apt-get update && apt-get install -y unzip curl && rm -rf /var/lib/apt/lists
 # RUN curl -s https://get.sdkman.io | bash \
 #     && bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install java 21"
 
-COPY . .
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn/ .mvn/
+COPY src/ src/
+
 
 RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
@@ -24,5 +28,7 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080
+
+ENV SPRING_PROFILES_ACTIVE=qa
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

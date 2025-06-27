@@ -1,3 +1,4 @@
+INSERT INTO usuario (id, username, password, role) VALUES (999, 'logtest', 'senha', 'ADMIN');
 
 
 INSERT INTO usuario (id, username, password, role)
