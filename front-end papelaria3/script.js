@@ -2,14 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
     const usuarioInput = document.querySelector('#usuario');
     const senhaInput = document.querySelector('#senha');
+    const loader = document.getElementById('loader');
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        
+
         const usuario = usuarioInput.value;
         const senha = senhaInput.value;
-        
-        // Enviar os dados para o backend via POST
+
+        // Mostrar o loader
+        loader.style.display = 'flex';
+
         fetch('https://ponto-de-venda-1.onrender.com/auth/login', {
             headers: {
                 "Accept": "application/json",
@@ -22,36 +25,29 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         })
         .then(response => {
-            console.log("Status da resposta:", response.status);
             if (response.ok) {
-                return response.json(); // Processar como JSON
-            } else if (response.status === 401) {
-                throw new Error('Usuário ou senha incorretos'); // Erro de autenticação
+                return response.json();
             } else {
-                throw new Error('Erro inesperado no servidor');
+                // Silenciosamente ignora o erro
+                return;
             }
         })
         .then(data => {
-            console.log('Resposta do servidor:', data);
-            
-            if (data.token && data.role) {
-                // Armazena o token no localStorage
+            loader.style.display = 'none';
+
+            if (data && data.token && data.role) {
                 localStorage.setItem('authToken', data.token);
-                console.log('Token armazenado após login:', localStorage.getItem('authToken'));
-                
-                // Redireciona com base no `role`
                 if (data.role === 'ROLE_ADMIN') {
                     window.location.href = "menu.html";
                 } else {
                     window.location.href = "menu2.html";
                 }
-            } else {
-                throw new Error('Dados incompletos na resposta do servidor');
             }
+            // Não faz nada se `data` for inválido
         })
-        .catch(error => {
-            console.error('Erro na autenticação:', error.message);
-            alert(error.message);
+        .catch(() => {
+            loader.style.display = 'none';
+            // Erro ignorado silenciosamente
         });
     });
 });

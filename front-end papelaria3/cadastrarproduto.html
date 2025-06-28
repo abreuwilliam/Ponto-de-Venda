@@ -5,6 +5,7 @@
     <title>Gerenciamento de Produtos</title>
     <link rel="stylesheet" href="stylecadastrarproduto.css">
     <link rel="icon" href="favicon.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <div class="container">
@@ -15,9 +16,14 @@
             <h2 id="formTitle">Adicionar Produto</h2>
             <form id="produtoForm">
                 <input type="hidden" id="produtoId">
-                <label for="codigo">Código:</label>
-                <input type="text" id="codigo" required>
                 
+                <label for="codigo">Código:</label>
+                <div id="codigo-container" style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="codigo" required>
+                    <button type="button" id="btnScanner" onclick="startScanner()" style="display: none;">📷</button>
+                </div>
+                <div id="reader" style="width: 300px; height: 300px; margin-top: 10px; display: none;"></div>
+
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" required>
 
@@ -44,12 +50,12 @@
                         <th>Estoque</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Produtos serão preenchidos dinamicamente -->
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="scriptcadastraproduto.js"></script>
 </body>
 </html>

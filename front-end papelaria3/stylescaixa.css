@@ -42,7 +42,7 @@ body {
 section {
     margin: 25px 0;
     padding: 20px;
-    background: #ffffff; /* Fundo branco para contraste */
+    background: #ffffff;
     border: 1px solid #ddd;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -58,8 +58,10 @@ section:hover {
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
     margin-bottom: 25px;
 }
+
 /* Títulos */
 h1, h2 {
     color: #333;
@@ -96,6 +98,7 @@ input[type="text"], input[type="number"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 /* Histórico de Produtos com caixa e barra de rolagem */
 .historico {
     margin-top: 20px;
@@ -103,9 +106,10 @@ input[type="text"], input[type="number"] {
     background: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    max-height: 300px; /* Defina uma altura máxima */
-    overflow-y: auto;  /* Adiciona barra de rolagem vertical */
+    max-height: 300px;
+    overflow-y: auto;
 }
+
 #historicoProdutos, #historicoVendas, #totalDiario {
     list-style: none;
     padding: 0;
@@ -122,11 +126,12 @@ input[type="text"], input[type="number"] {
     justify-content: space-between;
     align-items: center;
     transition: transform 0.2s, box-shadow 0.3s;
+    flex-wrap: wrap;
 }
 
 #historicoProdutos li:hover, #historicoVendas li:hover {
     transform: scale(1.03);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Efeito de sombra mais suave */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 #historicoProdutos li span, #historicoVendas li span {
@@ -145,6 +150,7 @@ input[type="text"], input[type="number"] {
     border: 1px solid #ddd;
     border-radius: 14px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
 }
 
 .total-display span {
@@ -156,4 +162,54 @@ input[type="text"], input[type="number"] {
 
 .total-display span:hover {
     color: #0056b3;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .total-display {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    input[type="text"], input[type="number"] {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1, h2 {
+        font-size: 1.2rem;
+    }
+
+    .caixa {
+        padding: 10px;
+    }
+
+    .total-display span {
+        font-size: 20px;
+    }
+
+    section {
+        padding: 15px;
+    }
+
+    #historicoProdutos li, #historicoVendas li {
+        font-size: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
