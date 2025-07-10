@@ -1,64 +1,149 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caixa Papelaria Planeta</title>
-    <link rel="stylesheet" href="stylescaixa.css">
-    <link rel="icon" href="favicon.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Caixa Papelaria Planeta</title>
+  <link rel="stylesheet" href="stylescaixa.css"/>
+  <link rel="icon" href="favicon.png" type="image/png"/>
+  <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
-    <div class="caixa">
-        <h1>Papelaria Planeta</h1>
+  <div class="caixa">
+    <h1>Papelaria Planeta</h1>
 
-        <div class="layout">
-            <!-- Coluna esquerda -->
-            <div class="col-esquerda">
-                <div class="controls">
-                    <button onclick="abrirCaixa()">Abrir Caixa</button>
-                    <button onclick="fecharCaixa()">Fechar Caixa</button>
-                    <button onclick="cancelarVenda()">Cancelar Venda</button>
-                    <button onclick="finalizarVenda()">Finalizar Venda</button>
-                </div>
-
-                <div class="produto">
-                    <label for="codigoProduto">Código do Produto:</label>
-                    <input type="text" id="codigoProduto" placeholder="Digite o código do produto">
-                    
-                    <label for="quantidadeProduto">Quantidade:</label>
-                    <input type="number" id="quantidadeProduto" placeholder="1" min="1" value="1">
-                </div>
-
-                <div class="resultado">
-                    <h2>Total: R$ <span id="total">0.00</span></h2>
-                    <h2>Troco: R$ <span id="troco">0.00</span></h2>
-                    <h2 id="totalVendasDia" style="display: none;">Total Vendido no Dia: R$ <span id="valorTotalDia">0.00</span></h2>
-                    <label for="valorPago">Valor Pago:</label>
-                    <input type="number" id="valorPago" placeholder="Digite o valor pago" oninput="calcularTroco()">
-                </div>
-            </div>
-
-            <!-- Coluna direita -->
-            <div class="col-direita">
-                <div class="descricao">
-                    <h2>Descrição do Produto:</h2>
-                    <p id="descricaoProduto"></p>
-                </div>
-
-                <div class="historico">
-                    <h2>Histórico de Produtos</h2>
-                    <ul id="historicoProdutos"></ul>
-                </div>
-            </div>
+    <div class="layout">
+      <!-- Coluna esquerda -->
+      <div class="col-esquerda">
+        <div class="controls">
+          <button onclick="abrirCaixa()">Abrir Caixa</button>
+          <button onclick="fecharCaixa()">Fechar Caixa</button>
+          <button onclick="cancelarVenda()">Cancelar Venda</button>
+          <button onclick="finalizarVenda()">Finalizar Venda</button>
         </div>
 
-        <!-- Histórico de vendas abaixo -->
-        <div class="historicoVendas">
-            <h2>Histórico de Vendas</h2>
-            <ul id="historicoVendas"></ul>
+        <div class="produto">
+          <label for="quantidadeProduto">Quantidade:</label>
+          <input type="number" id="quantidadeProduto" placeholder="1" min="1" value="1"/>
+
+          <!-- CAMPO DE DIGITAÇÃO + ESCANEAMENTO -->
+          <div id="codigo-container">
+            <div class="modo-selecao" id="modoSelecao">
+              <button onclick="ativarModoDigitacao()">✏️ Digitar Código</button>
+              <button onclick="iniciarLeitorQRCode()">📷 Escanear Código</button>
+            </div>
+
+            <div id="inputManual">
+              <label for="codigoProduto">Código do Produto:</label>
+              <input type="text" id="codigoProduto" placeholder="Digite o código do produto" />
+            </div>
+          </div>
+
+          <!-- Scanner -->
+          <div id="scanner-container" style="display: none; margin-top: 10px;">
+            <div id="reader" style="width: 100%;"></div>
+            <button onclick="pararLeitorQRCode()">Parar Scanner</button>
+          </div>
         </div>
+
+        <div class="resultado">
+          <h2>Total: R$ <span id="total">0.00</span></h2>
+          <h2>Troco: R$ <span id="troco">0.00</span></h2>
+          <h2 id="totalVendasDia" style="display: none;">Total Vendido no Dia: R$ <span id="valorTotalDia">0.00</span></h2>
+          <label for="valorPago">Valor Pago:</label>
+          <input type="number" id="valorPago" placeholder="Digite o valor pago" oninput="calcularTroco()"/>
+        </div>
+      </div>
+
+      <!-- Coluna direita -->
+      <div class="col-direita">
+        <div class="descricao">
+          <h2>Descrição do Produto:</h2>
+          <p id="descricaoProduto"></p>
+        </div>
+
+        <div class="historico">
+          <h2>Histórico de Produtos</h2>
+          <ul id="historicoProdutos"></ul>
+        </div>
+      </div>
     </div>
 
-    <script src="scriptcaixa.js"></script>
+    <!-- Histórico de vendas abaixo -->
+    <div class="historicoVendas">
+      <h2>Histórico de Vendas</h2>
+      <ul id="historicoVendas"></ul>
+    </div>
+  </div>
+
+  <script>
+    let html5QrCode;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const isMobile = window.innerWidth <= 768;
+
+      if (!isMobile) {
+        // Se for desktop, esconde os botões de escolha e scanner
+        document.getElementById("modoSelecao").style.display = "none";
+        document.getElementById("scanner-container").style.display = "none";
+        document.getElementById("inputManual").style.display = "block";
+      } else {
+        // No mobile, exibe botões e oculta inicialmente o campo manual
+        document.getElementById("inputManual").style.display = "none";
+        document.getElementById("modoSelecao").style.display = "flex";
+      }
+    });
+
+    function ativarModoDigitacao() {
+      document.getElementById("inputManual").style.display = "block";
+      document.getElementById("scanner-container").style.display = "none";
+
+      if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+          document.getElementById("reader").innerHTML = "";
+        }).catch((err) => {
+          console.error("Erro ao parar scanner: ", err);
+        });
+      }
+    }
+
+    function iniciarLeitorQRCode() {
+      document.getElementById("scanner-container").style.display = "block";
+      document.getElementById("inputManual").style.display = "none";
+
+      html5QrCode = new Html5Qrcode("reader");
+      html5QrCode.start(
+        { facingMode: "environment" },
+        {
+          fps: 10,
+          qrbox: 250
+        },
+        (decodedText, decodedResult) => {
+          document.getElementById("codigoProduto").value = decodedText;
+          pararLeitorQRCode();
+          adicionarProduto(); // já adiciona o produto
+        },
+        (errorMessage) => {
+          // Silencia erros de leitura contínua
+        }
+      ).catch((err) => {
+        console.error("Erro ao iniciar leitor: ", err);
+        alert("Erro ao acessar a câmera.");
+      });
+    }
+
+    function pararLeitorQRCode() {
+      if (html5QrCode) {
+        html5QrCode.stop().then(() => {
+          document.getElementById("scanner-container").style.display = "none";
+          document.getElementById("reader").innerHTML = "";
+        }).catch((err) => {
+          console.error("Erro ao parar scanner: ", err);
+        });
+      }
+    }
+  </script>
+
+  <script src="scriptcaixa.js"></script>
 </body>
 </html>
