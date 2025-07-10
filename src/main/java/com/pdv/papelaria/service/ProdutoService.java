@@ -108,11 +108,10 @@ public class ProdutoService {
         log.info("Estoque de '{}' atualizado para {} unidades", descricao, novaQuantidade);
     }
 
-
     @LogExecutionTime
     @Cacheable(value = "produtocache", key = "#produto")
     public List<ProdutoDto> buscarPorInicioDaDescricao(String produto) {
-        List<Produto> produtos = produtoRepository.findByProdutoStartingWith(produto);
+        List<Produto> produtos = produtoRepository.findByProdutoStartingWithIgnoreCase(produto);
         log.info("Produtos retornados por início da descrição com sucesso");
         return produtos.stream()
                 .map(ProdutoDto::new)

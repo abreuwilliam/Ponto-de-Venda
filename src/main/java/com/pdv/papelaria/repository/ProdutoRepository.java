@@ -13,7 +13,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 
     Produto findProdutoByProduto(String produto);
 
-    List<Produto> findByProdutoStartingWith(String produto);
+    List<Produto> findByProdutoStartingWithIgnoreCase(String produto);
 
     void deleteByCodigoProduto(Long codigoProduto);
 
