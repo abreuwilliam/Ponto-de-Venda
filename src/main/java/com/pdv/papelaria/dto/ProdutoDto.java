@@ -1,7 +1,13 @@
 package com.pdv.papelaria.dto;
 
 import com.pdv.papelaria.entities.Produto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProdutoDto {
     private Long codigoProduto;
     private String produto;
@@ -13,41 +19,5 @@ public class ProdutoDto {
         this.produto = entity.getProduto();
         this.preco = entity.getPreco();
         this.quantidadeEstoque = entity.getQuantidadeEstoque();
-    }
-    public ProdutoDto() {
-    }
-
-
-
-    public Long getCodigoProduto() {
-        return codigoProduto;
-    }
-
-    public void setCodigoProduto(Long codigoProduto) {
-        this.codigoProduto = codigoProduto;
-    }
-
-    public String getProduto() {
-        return produto;
-    }
-
-    public void setProduto(String produto) {
-        this.produto = produto;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public int getQuantidadeEstoque() {
-        return quantidadeEstoque;
-    }
-
-    public void setQuantidadeEstoque(int quantidadeEstoque) {
-        this.quantidadeEstoque = quantidadeEstoque;
     }
 }
