@@ -82,6 +82,7 @@ public class ProdutoController {
             @ApiResponse(responseCode = "400", description = "Campos obrigatórios faltando"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar estoque")
     })
+
     @PostMapping("/baixa")
     public ResponseEntity<String> baixarEstoque(@RequestBody List<Map<String, Object>> produtos) {
         log.info("Iniciando baixa de estoque para {} produtos", produtos.size());
