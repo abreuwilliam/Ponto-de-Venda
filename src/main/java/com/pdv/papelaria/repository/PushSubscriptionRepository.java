@@ -2,8 +2,9 @@ package com.pdv.papelaria.repository;
 
 import com.pdv.papelaria.dto.PushSubscriptionDTO;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class PushSubscriptionRepository {
     private PushSubscriptionDTO subscription;
 

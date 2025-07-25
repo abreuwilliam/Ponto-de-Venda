@@ -1,4 +1,4 @@
-/* Estilo base (desktop e tablets) */
+/* Estilo base (desktop) */
 body {
     margin: 0;
     padding: 0;
@@ -7,48 +7,55 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100vh;
     text-align: center;
+    padding-top: 80px;
 }
 
 h1 {
-    font-size: 26px;
+    font-size: 32px;
     color: #0d47a1;
-    margin-bottom: 24px;
-    padding: 0 20px;
+    margin-bottom: 40px;
 }
 
 button {
     background-color: #1976d2;
     color: white;
     border: none;
-    border-radius: 10px;
-    padding: 14px 28px;
-    font-size: 18px;
+    border-radius: 12px;
+    padding: 18px 36px;
+    font-size: 22px;
     cursor: pointer;
-    transition: background-color 0.25s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.25s ease, transform 0.1s ease;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
     background-color: #125aa0;
 }
 
-/* Estilo para telas menores (celulares) */
+button:active {
+    transform: scale(0.98);
+}
+
+/* Estilo para telas menores (mobile) */
 @media (max-width: 600px) {
+    body {
+        justify-content: center;
+        padding: 0 20px;
+    }
+
     h1 {
-        font-size: 20px;
+        font-size: 26px;
+        margin-bottom: 30px;
+        padding: 0 10px;
     }
 
     button {
-        width: 80%;
-        padding: 12px;
-        font-size: 16px;
-    }
-
-    body {
+        width: 100%;
         padding: 20px;
-        height: auto;
+        font-size: 20px;
+        max-width: 400px;
     }
 }
