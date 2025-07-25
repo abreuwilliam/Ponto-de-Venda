@@ -10,14 +10,8 @@ import com.pdv.papelaria.entities.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    List<Usuario> findAll();
+    Usuario findByUsername(String username);
 
-     Usuario findByUsername(String username);
-
-     Usuario  findByPassword(String password);
-
-     Usuario  findById(int id);
-
-     Usuario findByRole( String role);
-  
+    Usuario findByRole(String role); // opcional, se for realmente necessário
 }
+

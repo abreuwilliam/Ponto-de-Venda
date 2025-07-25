@@ -1,6 +1,3 @@
-INSERT INTO usuario ( username, password, role) VALUES (999, 'logtest', 'senha', 'ADMIN');
-
-
 INSERT INTO usuario ( username, password, role)
 VALUES ( 'william_admin', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'ADMIN');
 
@@ -36,13 +33,10 @@ INSERT INTO estoque ( codigo_Produto, produto, preco, quantidade_Estoque)
 VALUES ( 10, 'marcador', 2.80, 9);
 
 INSERT INTO estoque ( codigo_Produto, produto, preco, quantidade_Estoque)
-VALUES (1 11, 'papel sulfite', 1.20, 25);
+VALUES (11, 'papel sulfite', 1.20, 25);
 
 INSERT INTO estoque ( codigo_Produto, produto, preco, quantidade_Estoque)
 VALUES ( 12, 'pastas', 3.50, 40);
-
-INSERT INTO estoque (id, codigo_Produto, produto, preco, quantidade_Estoque)
-VALUES ( 13, 'clipes', 0.50, 30);
 
 INSERT INTO estoque ( codigo_Produto, produto, preco, quantidade_Estoque)
 VALUES ( 14, 'fita adesiva', 1.80, 70);
