@@ -1,6 +1,7 @@
 package com.pdv.papelaria.service;
 
 import com.pdv.papelaria.aop.LogExecutionTime;
+import com.pdv.papelaria.config.RabbitMQConfig;
 import com.pdv.papelaria.dto.ProdutoDto;
 import com.pdv.papelaria.entities.Produto;
 import com.pdv.papelaria.exception.RecursoNaoEncontradoException;
@@ -9,17 +10,23 @@ import com.pdv.papelaria.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class ProdutoService {
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -98,14 +105,24 @@ public class ProdutoService {
         }
 
         int novaQuantidade = produto.getQuantidadeEstoque() - quantidade;
+
         if (novaQuantidade < 0) {
             throw new RequisicaoInvalidaException("Estoque insuficiente para o produto: " + descricao);
         }
 
+// Atualiza e salva
         produto.setQuantidadeEstoque(novaQuantidade);
         produtoRepository.save(produto);
-
         log.info("Estoque de '{}' atualizado para {} unidades", descricao, novaQuantidade);
+
+        if (novaQuantidade < 5) {
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("descricao", produto.getProduto());
+            payload.put("quantidade", novaQuantidade);
+
+            rabbitTemplate.convertAndSend(RabbitMQConfig.FILA_ESTOQUE_BAIXO, payload);
+            log.info("Alerta de estoque baixo enviado para '{}'", produto.getProduto());
+        }
     }
 
     @LogExecutionTime
