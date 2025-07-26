@@ -30,13 +30,15 @@
             });
 
             // Envia a subscription para o backend
-            await fetch('/api/subscriptions', {
+            console.log("🔔 Enviando subscription para o back-end:", subscription);
+            await fetch('https://ponto-de-venda-1.onrender.com/api/subscriptions', {
                 method: 'POST',
                 body: JSON.stringify(subscription),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
+
 
             alert('Notificações ativadas com sucesso!');
         } else {

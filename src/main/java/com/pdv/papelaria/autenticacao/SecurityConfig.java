@@ -39,6 +39,8 @@ public class SecurityConfig {
                                 "/webjars/**"
                         ).permitAll()
 
+                        .requestMatchers(HttpMethod.POST, "/api/subscriptions").permitAll()
+
                         // Liberar rotas específicas
                         .requestMatchers(HttpMethod.POST, "/produto/consulta").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET, "/produto/codigo/**").hasAnyRole("ADMIN", "USER")
