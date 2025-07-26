@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PushNotificationService {
 
@@ -25,12 +27,14 @@ public class PushNotificationService {
     private PushSubscriptionRepository repository;
 
     public void enviarNotificacao(String titulo, String corpo) {
-        log.info("Iniciando envio de notificação com título='{}' e corpo='{}'", titulo, corpo);
+        log.info("📣 Iniciando envio de notificação: título='{}', corpo='{}'", titulo, corpo);
 
-        var subscriptions = repository.listarTodas();
+        List<PushSubscriptionDTO> subscriptions = repository.listarTodas();
+
+        log.debug("🔍 Total de inscrições encontradas: {}", subscriptions.size());
 
         if (subscriptions.isEmpty()) {
-            log.warn("Nenhuma assinatura de push encontrada. Notificação não enviada.");
+            log.warn("⚠️ Nenhuma assinatura de push encontrada. Notificação não enviada.");
             return;
         }
 
@@ -40,14 +44,18 @@ public class PushNotificationService {
                     .setPublicKey(publicKey)
                     .setPrivateKey(privateKey)
                     .setSubject("mailto:williampeeh@gmail.com");
+            log.debug("🔐 PushService configurado com sucesso");
         } catch (Exception e) {
-            log.error("Erro ao configurar PushService", e);
+            log.error("❌ Erro ao configurar PushService", e);
             return;
         }
 
         for (PushSubscriptionDTO dto : subscriptions) {
             try {
                 String payloadJson = String.format("{\"title\":\"%s\",\"body\":\"%s\"}", titulo, corpo);
+                log.debug("📦 Enviando para endpoint: {}", dto.getEndpoint());
+                log.trace("📬 Payload: {}", payloadJson);
+
                 Notification notification = new Notification(
                         dto.getEndpoint(),
                         dto.getKeys().getP256dh(),

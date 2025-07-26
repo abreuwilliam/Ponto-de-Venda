@@ -109,7 +109,6 @@ public class ProdutoService {
         if (novaQuantidade < 0) {
             throw new RequisicaoInvalidaException("Estoque insuficiente para o produto: " + descricao);
         }
-
 // Atualiza e salva
         produto.setQuantidadeEstoque(novaQuantidade);
         produtoRepository.save(produto);
