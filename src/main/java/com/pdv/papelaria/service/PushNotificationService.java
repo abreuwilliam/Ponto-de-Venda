@@ -10,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.spec.InvalidKeySpecException;
-
 @Service
 public class PushNotificationService {
 
@@ -31,38 +27,40 @@ public class PushNotificationService {
     public void enviarNotificacao(String titulo, String corpo) {
         log.info("Iniciando envio de notificação com título='{}' e corpo='{}'", titulo, corpo);
 
-        PushSubscriptionDTO dto = repository.buscar();
+        var subscriptions = repository.listarTodas();
 
-        if (dto == null) {
+        if (subscriptions.isEmpty()) {
             log.warn("Nenhuma assinatura de push encontrada. Notificação não enviada.");
             return;
         }
 
-        log.info("Assinatura encontrada: endpoint={}, p256dh={}, auth={}",
-                dto.getEndpoint(), dto.getKeys().getP256dh(), dto.getKeys().getAuth());
-
+        PushService pushService;
         try {
-            String payloadJson = String.format("{\"title\":\"%s\",\"body\":\"%s\"}", titulo, corpo);
-            Notification notification = new Notification(
-                    dto.getEndpoint(),
-                    dto.getKeys().getP256dh(),
-                    dto.getKeys().getAuth(),
-                    payloadJson
-            );
-
-            PushService pushService = new PushService()
+            pushService = new PushService()
                     .setPublicKey(publicKey)
                     .setPrivateKey(privateKey)
                     .setSubject("mailto:williampeeh@gmail.com");
-
-            pushService.send(notification);
-
-            log.info("Notificação enviada com sucesso para o navegador do cliente.");
-
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e) {
-            log.error("Erro ao criar a notificação Web Push", e);
         } catch (Exception e) {
-            log.error("Erro inesperado ao enviar notificação", e);
+            log.error("Erro ao configurar PushService", e);
+            return;
+        }
+
+        for (PushSubscriptionDTO dto : subscriptions) {
+            try {
+                String payloadJson = String.format("{\"title\":\"%s\",\"body\":\"%s\"}", titulo, corpo);
+                Notification notification = new Notification(
+                        dto.getEndpoint(),
+                        dto.getKeys().getP256dh(),
+                        dto.getKeys().getAuth(),
+                        payloadJson
+                );
+
+                pushService.send(notification);
+                log.info("✅ Notificação enviada com sucesso para: {}", dto.getEndpoint());
+
+            } catch (Exception e) {
+                log.error("❌ Erro ao enviar notificação para: {}", dto.getEndpoint(), e);
+            }
         }
     }
 }
