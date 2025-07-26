@@ -10,7 +10,8 @@
 <button id="ativar">Ativar Notificações</button>
 
 <script>
-    const PUBLIC_KEY = 'BH7tqCBB2tRm_uOalhTTnj-uV2hHxQtOvXpfhIiW0VZdWOzuRGoUZUo1eRN-8M_wee5_6ViUYRb9MubSFOIuMAY'; // substitua pela sua chave VAPID
+    const PUBLIC_KEY = 'BH7tqCBB2tRm_uOalhTTnj-uV2hHxQtOvXpfhIiW0VZdWOzuRGoUZUo1eRN-8M_wee5_6ViUYRb9MubSFOIuMAY';
+    const token = localStorage.getItem('authToken');
 
     function urlBase64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -29,22 +30,30 @@
                 applicationServerKey: urlBase64ToUint8Array(PUBLIC_KEY)
             });
 
-            // Envia a subscription para o backend
             console.log("🔔 Enviando subscription para o back-end:", subscription);
+
             await fetch('https://ponto-de-venda-1.onrender.com/api/subscriptions', {
                 method: 'POST',
                 body: JSON.stringify(subscription),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
-            });
-
-
-            alert('Notificações ativadas com sucesso!');
+            })
+                .then(response => {
+                    console.log("🟢 Resposta do servidor:", response.status);
+                    if (!response.ok) {
+                        console.warn("⚠️ Algo deu errado ao salvar a subscription.");
+                    }
+                    return response;
+                })
+                .catch(error => {
+                    console.error("🔴 Erro ao enviar subscription:", error);
+                });
         } else {
             alert('Seu navegador não suporta notificações push.');
         }
-    });
+    }); // ✅ FECHAMENTO DA FUNÇÃO ASSÍNCRONA AQUI
 </script>
 </body>
 </html>

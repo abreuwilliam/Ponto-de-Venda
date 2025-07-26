@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-
 @Component
 public class EstoqueConsumer {
 
@@ -15,12 +14,23 @@ public class EstoqueConsumer {
 
     @RabbitListener(queues = RabbitMQConfig.FILA_ESTOQUE_BAIXO)
     public void receberAlertaEstoqueBaixo(Map<String, Object> payload) {
-        String descricao = (String) payload.get("descricao");
-        int quantidade = (int) payload.get("quantidade");
+        try {
+            String descricao = payload.get("descricao") != null ? payload.get("descricao").toString() : "Produto desconhecido";
+            int quantidade = 0;
 
-        String mensagem = String.format("🚨 Estoque baixo: %s - %d unidades!", descricao, quantidade);
+            Object quantidadeObj = payload.get("quantidade");
+            if (quantidadeObj instanceof Integer) {
+                quantidade = (Integer) quantidadeObj;
+            } else if (quantidadeObj instanceof String) {
+                quantidade = Integer.parseInt((String) quantidadeObj);
+            }
 
-        pushNotificationService.enviarNotificacao("Estoque Baixo", mensagem);
+            String mensagem = String.format("🚨 Estoque baixo: %s - %d unidades!", descricao, quantidade);
+            pushNotificationService.enviarNotificacao("Estoque Baixo", mensagem);
+
+        } catch (Exception e) {
+            System.err.println("❌ Erro ao processar mensagem do RabbitMQ:");
+            e.printStackTrace();
+        }
     }
 }
-
