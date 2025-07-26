@@ -10,12 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.Security;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.util.List;
 
 @Service
 public class PushNotificationService {
 
     private static final Logger log = LoggerFactory.getLogger(PushNotificationService.class);
+
+    // ✅ Bloco estático para registrar o BouncyCastle Provider
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
 
     @Value("${vapid.public.key}")
     private String publicKey;
@@ -30,7 +38,6 @@ public class PushNotificationService {
         log.info("📣 Iniciando envio de notificação: título='{}', corpo='{}'", titulo, corpo);
 
         List<PushSubscriptionDTO> subscriptions = repository.listarTodas();
-
         log.debug("🔍 Total de inscrições encontradas: {}", subscriptions.size());
 
         if (subscriptions.isEmpty()) {
