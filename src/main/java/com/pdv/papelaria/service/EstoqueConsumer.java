@@ -42,7 +42,7 @@ public class EstoqueConsumer {
             String mensagem = String.format("🚨 Estoque baixo: %s - %d unidades!", descricao, quantidade);
             pushNotificationService.enviarNotificacao("Estoque Baixo", mensagem);
 
-            log.info("📤 Notificação enviada com sucesso para produto '{}'", descricao);
+            log.info("📤 fila do consumer enviada com sucesso para produto '{}'", descricao);
 
         } catch (Exception e) {
             log.error("❌ Erro ao processar mensagem da fila '{}'", RabbitMQConfig.FILA_ESTOQUE_BAIXO, e);

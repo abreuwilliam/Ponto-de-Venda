@@ -1,5 +1,5 @@
 INSERT INTO usuario ( username, password, role)
-VALUES ( 'william_admin', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'ADMIN');
+VALUES ( 'william_admn', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'ADMIN');
 
 INSERT INTO usuario ( username, password, role)
 VALUES  ('william_user', '$2a$12$jeTsXeTVrNwhFyxzvTY52OEBCmgmkW7/UC2sqIzXYGSMhHUsYHuK.', 'USER');

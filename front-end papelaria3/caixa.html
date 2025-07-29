@@ -7,143 +7,212 @@
   <link rel="stylesheet" href="stylescaixa.css"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
   <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    #logs {
+      white-space: pre-line;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+    #botaoNotificacao {
+      margin-top: 10px;
+      padding: 8px;
+    }
+  </style>
 </head>
 <body>
-  <div class="caixa">
-    <h1>Papelaria Planeta</h1>
+<div class="caixa">
+  <h1>Papelaria Planeta</h1>
 
-    <div class="layout">
-      <!-- Coluna esquerda -->
-      <div class="col-esquerda">
-        <div class="controls">
-          <button onclick="abrirCaixa()">Abrir Caixa</button>
-          <button onclick="fecharCaixa()">Fechar Caixa</button>
-          <button onclick="cancelarVenda()">Cancelar Venda</button>
-          <button onclick="finalizarVenda()">Finalizar Venda</button>
-        </div>
+  <div class="layout">
+    <!-- Coluna esquerda -->
+    <div class="col-esquerda">
+      <div class="controls">
+        <button onclick="abrirCaixa()">Abrir Caixa</button>
+        <button onclick="fecharCaixa()">Fechar Caixa</button>
+        <button onclick="cancelarVenda()">Cancelar Venda</button>
+        <button onclick="finalizarVenda()">Finalizar Venda</button>
+      </div>
 
-        <div class="produto">
-          <label for="quantidadeProduto">Quantidade:</label>
-          <input type="number" id="quantidadeProduto" placeholder="1" min="1" value="1"/>
+      <div class="produto">
+        <label for="quantidadeProduto">Quantidade:</label>
+        <input type="number" id="quantidadeProduto" placeholder="1" min="1" value="1"/>
 
-          <!-- CAMPO DE DIGITAÇÃO + ESCANEAMENTO -->
-          <div id="codigo-container">
-            <div class="modo-selecao" id="modoSelecao">
-              <button onclick="ativarModoDigitacao()">✏️ Digitar Código</button>
-              <button onclick="iniciarLeitorQRCode()">📷 Escanear Código</button>
-            </div>
-
-            <div id="inputManual">
-              <label for="codigoProduto">Código do Produto:</label>
-              <input type="text" id="codigoProduto" placeholder="Digite o código do produto" />
-            </div>
+        <div id="codigo-container">
+          <div class="modo-selecao" id="modoSelecao">
+            <button onclick="ativarModoDigitacao()">✏️ Digitar Código</button>
+            <button onclick="iniciarLeitorQRCode()">📷 Escanear Código</button>
           </div>
 
-          <!-- Scanner -->
-          <div id="scanner-container" style="display: none; margin-top: 10px;">
-            <div id="reader" style="width: 100%;"></div>
-            <button onclick="pararLeitorQRCode()">Parar Scanner</button>
+          <div id="inputManual">
+            <label for="codigoProduto">Código do Produto:</label>
+            <input type="text" id="codigoProduto" placeholder="Digite o código do produto" />
           </div>
         </div>
 
-        <div class="resultado">
-          <h2>Total: R$ <span id="total">0.00</span></h2>
-          <h2>Troco: R$ <span id="troco">0.00</span></h2>
-          <h2 id="totalVendasDia" style="display: none;">Total Vendido no Dia: R$ <span id="valorTotalDia">0.00</span></h2>
-          <label for="valorPago">Valor Pago:</label>
-          <input type="number" id="valorPago" placeholder="Digite o valor pago" oninput="calcularTroco()"/>
+        <div id="scanner-container" style="display: none; margin-top: 10px;">
+          <div id="reader" style="width: 100%;"></div>
+          <button onclick="pararLeitorQRCode()">Parar Scanner</button>
         </div>
       </div>
 
-      <!-- Coluna direita -->
-      <div class="col-direita">
-        <div class="descricao">
-          <h2>Descrição do Produto:</h2>
-          <p id="descricaoProduto"></p>
-        </div>
-
-        <div class="historico">
-          <h2>Histórico de Produtos</h2>
-          <ul id="historicoProdutos"></ul>
-        </div>
+      <div class="resultado">
+        <h2>Total: R$ <span id="total">0.00</span></h2>
+        <h2>Troco: R$ <span id="troco">0.00</span></h2>
+        <h2 id="totalVendasDia" style="display: none;">Total Vendido no Dia: R$ <span id="valorTotalDia">0.00</span></h2>
+        <label for="valorPago">Valor Pago:</label>
+        <input type="number" id="valorPago" placeholder="Digite o valor pago" oninput="calcularTroco()"/>
       </div>
     </div>
 
-    <!-- Histórico de vendas abaixo -->
-    <div class="historicoVendas">
-      <h2>Histórico de Vendas</h2>
-      <ul id="historicoVendas"></ul>
+    <!-- Coluna direita -->
+    <div class="col-direita">
+      <div class="descricao">
+        <h2>Descrição do Produto:</h2>
+        <p id="descricaoProduto"></p>
+      </div>
+
+      <div class="historico">
+        <h2>Histórico de Produtos</h2>
+        <ul id="historicoProdutos"></ul>
+      </div>
     </div>
   </div>
 
-  <script>
-    let html5QrCode;
+  <div class="historicoVendas">
+    <h2>Histórico de Vendas</h2>
+    <ul id="historicoVendas"></ul>
+  </div>
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const isMobile = window.innerWidth <= 768;
+  <button id="botaoNotificacao" onclick="solicitarPermissao()">🔔 Ativar Notificações Push</button>
+  <div id="logs">[Logs Push API]</div>
+</div>
 
-      if (!isMobile) {
-        // Se for desktop, esconde os botões de escolha e scanner
-        document.getElementById("modoSelecao").style.display = "none";
-        document.getElementById("scanner-container").style.display = "none";
-        document.getElementById("inputManual").style.display = "block";
-      } else {
-        // No mobile, exibe botões e oculta inicialmente o campo manual
-        document.getElementById("inputManual").style.display = "none";
-        document.getElementById("modoSelecao").style.display = "flex";
-      }
-    });
+<script>
+  let html5QrCode;
 
-    function ativarModoDigitacao() {
-      document.getElementById("inputManual").style.display = "block";
-      document.getElementById("scanner-container").style.display = "none";
+  window.addEventListener('DOMContentLoaded', () => {
+    const isMobile = window.innerWidth <= 768;
+    document.getElementById("modoSelecao").style.display = isMobile ? "flex" : "none";
+    document.getElementById("inputManual").style.display = isMobile ? "none" : "block";
+    document.getElementById("scanner-container").style.display = "none";
+  });
 
-      if (html5QrCode) {
-        html5QrCode.stop().then(() => {
-          document.getElementById("reader").innerHTML = "";
-        }).catch((err) => {
-          console.error("Erro ao parar scanner: ", err);
-        });
-      }
-    }
-
-    function iniciarLeitorQRCode() {
-      document.getElementById("scanner-container").style.display = "block";
-      document.getElementById("inputManual").style.display = "none";
-
-      html5QrCode = new Html5Qrcode("reader");
-      html5QrCode.start(
-        { facingMode: "environment" },
-        {
-          fps: 10,
-          qrbox: 250
-        },
-        (decodedText, decodedResult) => {
-          document.getElementById("codigoProduto").value = decodedText;
-          pararLeitorQRCode();
-          adicionarProduto(); // já adiciona o produto
-        },
-        (errorMessage) => {
-          // Silencia erros de leitura contínua
-        }
-      ).catch((err) => {
-        console.error("Erro ao iniciar leitor: ", err);
-        alert("Erro ao acessar a câmera.");
+  function ativarModoDigitacao() {
+    document.getElementById("inputManual").style.display = "block";
+    document.getElementById("scanner-container").style.display = "none";
+    if (html5QrCode) {
+      html5QrCode.stop().then(() => {
+        document.getElementById("reader").innerHTML = "";
+      }).catch((err) => {
+        console.error("Erro ao parar scanner: ", err);
       });
     }
+  }
 
-    function pararLeitorQRCode() {
-      if (html5QrCode) {
-        html5QrCode.stop().then(() => {
-          document.getElementById("scanner-container").style.display = "none";
-          document.getElementById("reader").innerHTML = "";
-        }).catch((err) => {
-          console.error("Erro ao parar scanner: ", err);
-        });
-      }
+  function iniciarLeitorQRCode() {
+    document.getElementById("scanner-container").style.display = "block";
+    document.getElementById("inputManual").style.display = "none";
+    html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            (decodedText) => {
+              document.getElementById("codigoProduto").value = decodedText;
+              pararLeitorQRCode();
+              adicionarProduto();
+            },
+            () => {}
+    ).catch((err) => {
+      console.error("Erro ao iniciar leitor: ", err);
+      alert("Erro ao acessar a câmera.");
+    });
+  }
+
+  function pararLeitorQRCode() {
+    if (html5QrCode) {
+      html5QrCode.stop().then(() => {
+        document.getElementById("scanner-container").style.display = "none";
+        document.getElementById("reader").innerHTML = "";
+      }).catch((err) => {
+        console.error("Erro ao parar scanner: ", err);
+      });
     }
-  </script>
+  }
 
-  <script src="scriptcaixa.js"></script>
+  // --- Push Notification ---
+  const log = (msg) => {
+    const logs = document.getElementById('logs');
+    logs.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
+  };
+
+  const PUBLIC_KEY = 'BH7tqCBB2tRm_uOalhTTnj-uV2hHxQtOvXpfhIiW0VZdWOzuRGoUZUo1eRN-8M_wee5_6ViUYRb9MubSFOIuMAY';
+  const token = localStorage.getItem('authToken');// Substituir pelo seu JWT real
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = atob(base64);
+    return Uint8Array.from([...rawData].map(char => char.charCodeAt(0)));
+  }
+
+  async function solicitarPermissao() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      log("❌ Navegador não suporta Push API ou Service Workers.");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    log("🔐 Permissão: " + permission);
+    if (permission !== 'granted') {
+      log("🚫 Permissão negada.");
+      return;
+    }
+
+    const registration = await navigator.serviceWorker.register('sw.js');
+    log("✅ Service Worker registrado.");
+
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(PUBLIC_KEY)
+    });
+
+    log("📬 Inscrição realizada com sucesso:");
+    log(JSON.stringify(subscription, null, 2));
+
+    try {
+      const response = await fetch('https://ponto-de-venda-1.onrender.com/api/subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(subscription)
+      });
+
+      if (response.ok) {
+        log("🟢 Inscrição enviada ao servidor com sucesso.");
+      } else {
+        log("⚠️ Falha ao enviar inscrição. Status: " + response.status);
+      }
+    } catch (error) {
+      log("🔴 Erro ao enviar inscrição: " + error.message);
+    }
+  }
+
+  // Recebe logs do Service Worker
+  if ('BroadcastChannel' in window) {
+    const bc = new BroadcastChannel('push-logs');
+    bc.onmessage = (event) => {
+      log(event.data);
+    };
+  }
+</script>
+
+<script src="scriptcaixa.js"></script>
 </body>
 </html>
