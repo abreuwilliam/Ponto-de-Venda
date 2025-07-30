@@ -1,41 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Produto - Papelaria Planeta</title>
-    <link rel="stylesheet" href="style_editar_produto.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Editar Produto - Papelaria Planeta</title>
+  <link rel="icon" href="favicon.png" type="image/png"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Glassmorphism */
+    .glass {
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    /* Botões com efeito brilho */
+    .btn-glow {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .btn-glow::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.25);
+      transform: skewX(-20deg);
+      transition: left 0.5s;
+    }
+    .btn-glow:hover::after {
+      left: 100%;
+    }
+  </style>
 </head>
-<body>
-    <div class="menu">
-        <img src="logo%20papelariaplaneta.png" alt="Logo Papelaria Planeta" class="logo">
-        <h1>Editar/Deletar Produto</h1>
-        <div class="form-container">
-            <form id="produtoForm">
-                <label for="codigoProduto">Código do Produto:</label>
-                <input type="text" id="codigoProduto" name="codigoProduto" placeholder="Digite o código do produto">
-              
-                <label for="produto">Produto:</label>
-                <input type="text" id="produto" name="produto" disabled>
+<body class="bg-blue-900 min-h-screen flex flex-col items-center p-6 text-white">
 
-                <label for="preco">Preço:</label>
-                <input type="text" id="preco" name="preco" disabled>
-
-                <label for="quantidadeEstoque">Quantidade em Estoque:</label>
-                <input type="text" id="quantidadeEstoque" name="quantidadeEstoque" disabled style="margin-bottom: 10px;"> <!-- Espaço adicionado aqui -->
-
-                <!-- Novo campo para adicionar a quantidade recebida -->
-                <label for="quantidadeNova">Quantidade Recebida:</label>
-                <input type="number" id="quantidadeNova" name="quantidadeNova" placeholder="Digite a quantidade recebida">
-
-                <div class="button-group">
-                    <button type="button" onclick="alterarProduto()" class="btn btn-alterar">Alterar Produto</button>
-                    <button type="button" onclick="deletarProduto()" class="btn btn-deletar">Deletar Produto</button>
-                    <button  id="atualizarEstoqueBtn">Atualizar Estoque</button>
-                </div>
-            </form>
-        </div>
+  <!-- Cabeçalho -->
+  <div class="glass rounded-2xl shadow-2xl p-6 w-full max-w-2xl">
+    <div class="flex flex-col items-center mb-6">
+      <img src="logo%20papelariaplaneta.png" alt="Logo Papelaria Planeta" class="w-32 mb-4 drop-shadow-lg">
+      <h1 class="text-2xl font-bold drop-shadow-lg">🛠 Editar / Deletar Produto</h1>
     </div>
-    <script src="script_editar_produto.js"></script>
+
+    <!-- Formulário -->
+    <form id="produtoForm" class="space-y-4">
+
+      <div>
+        <label for="codigoProduto" class="block font-semibold mb-1">Código do Produto:</label>
+        <input type="text" id="codigoProduto" name="codigoProduto" placeholder="Digite o código do produto"
+               class="border rounded-lg px-3 py-2 w-full text-black"/>
+      </div>
+
+      <div>
+        <label for="produto" class="block font-semibold mb-1">Produto:</label>
+        <input type="text" id="produto" name="produto" disabled
+               class="border rounded-lg px-3 py-2 w-full bg-gray-100 text-black"/>
+      </div>
+
+      <div>
+        <label for="preco" class="block font-semibold mb-1">Preço:</label>
+        <input type="text" id="preco" name="preco" disabled
+               class="border rounded-lg px-3 py-2 w-full bg-gray-100 text-black"/>
+      </div>
+
+      <div>
+        <label for="quantidadeEstoque" class="block font-semibold mb-1">Quantidade em Estoque:</label>
+        <input type="text" id="quantidadeEstoque" name="quantidadeEstoque" disabled
+               class="border rounded-lg px-3 py-2 w-full bg-gray-100 text-black"/>
+      </div>
+
+      <!-- Novo campo -->
+      <div>
+        <label for="quantidadeNova" class="block font-semibold mb-1">Quantidade Recebida:</label>
+        <input type="number" id="quantidadeNova" name="quantidadeNova" placeholder="Digite a quantidade recebida"
+               class="border rounded-lg px-3 py-2 w-full text-black"/>
+      </div>
+
+      <!-- Botões -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4">
+        <button type="button" onclick="alterarProduto()"
+                class="btn-glow bg-yellow-500 hover:bg-yellow-400 text-white py-2 rounded-lg font-semibold shadow-lg">
+          ✏️ Alterar
+        </button>
+
+        <button type="button" onclick="deletarProduto()"
+                class="btn-glow bg-red-500 hover:bg-red-400 text-white py-2 rounded-lg font-semibold shadow-lg">
+          🗑 Deletar
+        </button>
+
+        <button id="atualizarEstoqueBtn"
+                class="btn-glow bg-green-500 hover:bg-green-400 text-white py-2 rounded-lg font-semibold shadow-lg">
+          📦 Atualizar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="script_editar_produto.js"></script>
 </body>
 </html>

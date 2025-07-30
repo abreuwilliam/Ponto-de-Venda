@@ -7,12 +7,15 @@
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
 <body>
-    <div class="consulta-container">
+    <header class="top-bar">
         <h1>Consulta de Produtos</h1>
+    </header>
+
+    <main class="consulta-container">
         <div class="search-bar">
-            <input type="text" id="buscarProduto" placeholder="Pesquisar por nome ou código">
-            
+            <input type="text" id="buscarProduto" placeholder="🔍 Pesquisar por nome ou código">
         </div>
+
         <div class="produto-tabela">
             <table id="tabelaProdutos">
                 <thead>
@@ -24,11 +27,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Os dados dos produtos serão preenchidos dinamicamente -->
+                    <!-- Dados preenchidos dinamicamente -->
                 </tbody>
             </table>
         </div>
-    </div>
+    </main>
+
     <script src="scriptconsultaproduto.js"></script>
 </body>
 </html>

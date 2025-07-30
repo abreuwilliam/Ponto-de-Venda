@@ -3,59 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>Gerenciamento de Produtos</title>
-    <link rel="stylesheet" href="stylecadastrarproduto.css">
     <link rel="icon" href="favicon.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        /* Glassmorphism */
+        .glass {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        /* Botões com efeito brilho */
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-glow::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.25);
+            transform: skewX(-20deg);
+            transition: left 0.5s;
+        }
+        .btn-glow:hover::after {
+            left: 100%;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Cadastro de Produtos</h1>
-        
-        <!-- Formulário de Cadastro/Alteração -->
-        <div class="form-container">
-            <h2 id="formTitle">Adicionar Produto</h2>
-            <form id="produtoForm">
+<body class="bg-blue-900 min-h-screen flex flex-col text-white">
+
+    <!-- Título -->
+    <header class="glass py-4 shadow-xl">
+        <h1 class="text-center text-3xl font-extrabold drop-shadow-lg">📦 Cadastro de Produtos</h1>
+    </header>
+
+    <main class="flex flex-col lg:flex-row gap-6 p-6 flex-1">
+
+        <!-- Formulário -->
+        <section class="glass rounded-2xl shadow-2xl p-6 w-full lg:w-1/2">
+            <h2 id="formTitle" class="text-xl font-bold mb-4">🆕 Adicionar Produto</h2>
+            <form id="produtoForm" class="space-y-4">
                 <input type="hidden" id="produtoId">
-                
-                <label for="codigo">Código:</label>
-                <div id="codigo-container" style="display: flex; gap: 10px; align-items: center;">
-                    <input type="text" id="codigo" required>
-                    <button type="button" id="btnScanner" onclick="startScanner()" style="display: none;">📷</button>
+
+                <label for="codigo" class="block font-medium">Código:</label>
+                <div class="flex gap-2 items-center">
+                    <input type="text" id="codigo" required class="border rounded-lg px-3 py-2 w-full text-black">
+                    <button type="button" id="btnScanner" onclick="startScanner()" style="display: none;" class="btn-glow bg-blue-500 hover:bg-blue-400 text-white px-3 py-2 rounded-lg">📷</button>
                 </div>
                 <div id="reader" style="width: 300px; height: 300px; margin-top: 10px; display: none;"></div>
 
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" required>
+                <label for="nome" class="block font-medium">Nome:</label>
+                <input type="text" id="nome" required class="border rounded-lg px-3 py-2 w-full text-black">
 
-                <label for="preco">Preço:</label>
-                <input type="text" id="preco" required>
+                <label for="preco" class="block font-medium">Preço:</label>
+                <input type="text" id="preco" required class="border rounded-lg px-3 py-2 w-full text-black">
 
-                <label for="estoque">Estoque:</label>
-                <input type="number" id="estoque" required>
+                <label for="estoque" class="block font-medium">Estoque:</label>
+                <input type="number" id="estoque" required class="border rounded-lg px-3 py-2 w-full text-black">
 
-                <button type="button" onclick="salvarProduto()">Salvar</button>
-                <button type="reset" onclick="limparFormulario()">Cancelar</button>
+                <div class="flex gap-3">
+                    <button type="button" onclick="salvarProduto()" class="btn-glow bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded-lg font-semibold">💾 Salvar</button>
+                    <button type="reset" onclick="limparFormulario()" class="btn-glow bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-lg font-semibold">❌ Cancelar</button>
+                </div>
             </form>
-        </div>
-        
-        <!-- Tabela de Produtos -->
-        <div class="tabela-container">
-            <h2>Lista de Produtos</h2>
-            <table id="tabelaProdutos">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Estoque</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
+        </section>
 
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+        <!-- Lista de Produtos -->
+        <section class="glass rounded-2xl shadow-2xl p-6 w-full lg:w-1/2">
+            <h2 class="text-xl font-bold mb-4">📜 Lista de Produtos</h2>
+            <div class="overflow-x-auto">
+                <table id="tabelaProdutos" class="min-w-full border-collapse border border-gray-300 bg-white/30 text-black rounded-lg overflow-hidden">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-2">Código</th>
+                            <th class="border border-gray-300 px-4 py-2">Nome</th>
+                            <th class="border border-gray-300 px-4 py-2">Preço</th>
+                            <th class="border border-gray-300 px-4 py-2">Estoque</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white/50"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
     <script src="scriptcadastraproduto.js"></script>
 </body>
 </html>

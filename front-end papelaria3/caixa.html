@@ -1,148 +1,134 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Caixa Papelaria Planeta</title>
-  <link rel="stylesheet" href="stylescaixa.css"/>
   <link rel="icon" href="favicon.png" type="image/png"/>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
-  <style>
-    #logs {
-      white-space: pre-line;
-      background: #eee;
-      padding: 10px;
-      border-radius: 5px;
-      max-height: 200px;
-      overflow-y: auto;
-      margin-top: 10px;
-      font-size: 0.9em;
-    }
-    #botaoNotificacao {
-      margin-top: 10px;
-      padding: 8px;
-    }
-  </style>
+<style>
+  /* Fundo gradiente pastel mais forte */
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .bg-animated {
+    background: linear-gradient(-45deg, 
+      #a8c0ff, 
+      #c8b6ff, 
+      #ffd6e0, 
+      #ffe8a3
+    );
+    background-size: 400% 400%;
+    animation: gradientMove 18s ease infinite;
+  }
+
+  /* Glassmorphism mais escuro para contraste */
+  .glass {
+    backdrop-filter: blur(14px);
+    background: rgba(0, 0, 0, 0.35); /* mais escuro para texto branco */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+  }
+
+  /* Botões sólidos para legibilidade */
+  .btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    color: white;
+    font-weight: bold;
+  }
+
+  /* Efeito brilho */
+  .btn-glow::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+  .btn-glow:hover::after {
+    left: 100%;
+  }
+</style>
+
+
+
 </head>
-<body>
-<div class="caixa">
-  <h1>Papelaria Planeta</h1>
+<body class="bg-animated min-h-screen flex flex-col text-white">
 
-  <div class="layout">
+  <!-- Topo -->
+  <header class="glass py-4 shadow-xl">
+    <h1 class="text-center text-3xl font-extrabold drop-shadow-lg">📦 Papelaria Planeta - PDV</h1>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="flex flex-col md:flex-row gap-6 p-6 flex-1">
+
     <!-- Coluna esquerda -->
-    <div class="col-esquerda">
-      <div class="controls">
-        <button onclick="abrirCaixa()">Abrir Caixa</button>
-        <button onclick="fecharCaixa()">Fechar Caixa</button>
-        <button onclick="cancelarVenda()">Cancelar Venda</button>
-        <button onclick="finalizarVenda()">Finalizar Venda</button>
+    <section class="glass rounded-2xl shadow-2xl p-6 w-full md:w-1/2">
+      <h2 class="text-xl font-bold mb-4">⚙️ Ações</h2>
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <button class="btn-glow bg-green-500 hover:bg-green-400 text-white py-2 rounded-lg font-semibold">Abrir Caixa</button>
+        <button class="btn-glow bg-red-500 hover:bg-red-400 text-white py-2 rounded-lg font-semibold">Fechar Caixa</button>
+        <button class="btn-glow bg-orange-500 hover:bg-orange-400 text-white py-2 rounded-lg font-semibold">Cancelar Venda</button>
+        <button class="btn-glow bg-blue-500 hover:bg-blue-400 text-white py-2 rounded-lg font-semibold">Finalizar Venda</button>
       </div>
 
-      <div class="produto">
-        <label for="quantidadeProduto">Quantidade:</label>
-        <input type="number" id="quantidadeProduto" placeholder="1" min="1" value="1"/>
+      <h2 class="text-xl font-bold mb-2">📦 Produto</h2>
+      <label for="quantidadeProduto" class="block mb-1 font-medium">Quantidade:</label>
+      <input type="number" id="quantidadeProduto" min="1" value="1" class="border rounded-lg px-3 py-2 w-full mb-4 text-black"/>
 
-        <div id="codigo-container">
-          <div class="modo-selecao" id="modoSelecao">
-            <button onclick="ativarModoDigitacao()">✏️ Digitar Código</button>
-            <button onclick="iniciarLeitorQRCode()">📷 Escanear Código</button>
-          </div>
-
-          <div id="inputManual">
-            <label for="codigoProduto">Código do Produto:</label>
-            <input type="text" id="codigoProduto" placeholder="Digite o código do produto" />
-          </div>
-        </div>
-
-        <div id="scanner-container" style="display: none; margin-top: 10px;">
-          <div id="reader" style="width: 100%;"></div>
-          <button onclick="pararLeitorQRCode()">Parar Scanner</button>
-        </div>
+      <div id="modoSelecao" class="flex gap-2 mb-4">
+        <button class="btn-glow bg-gray-500 hover:bg-gray-400 text-white px-3 py-2 rounded-lg font-semibold">✏️ Digitar Código</button>
+        <button class="btn-glow bg-blue-500 hover:bg-blue-400 text-white px-3 py-2 rounded-lg font-semibold">📷 Escanear Código</button>
       </div>
 
-      <div class="resultado">
-        <h2>Total: R$ <span id="total">0.00</span></h2>
-        <h2>Troco: R$ <span id="troco">0.00</span></h2>
-        <h2 id="totalVendasDia" style="display: none;">Total Vendido no Dia: R$ <span id="valorTotalDia">0.00</span></h2>
-        <label for="valorPago">Valor Pago:</label>
-        <input type="number" id="valorPago" placeholder="Digite o valor pago" oninput="calcularTroco()"/>
+      <div id="inputManual" class="mb-4">
+        <label for="codigoProduto" class="block mb-1 font-medium">Código do Produto:</label>
+        <input type="text" id="codigoProduto" placeholder="Digite o código do produto" class="border rounded-lg px-3 py-2 w-full text-black"/>
       </div>
-    </div>
+
+      <div id="scanner-container" class="mb-4 hidden">
+        <div id="reader" class="mb-2"></div>
+        <button class="btn-glow bg-red-500 hover:bg-red-400 text-white px-3 py-2 rounded-lg w-full">Parar Scanner</button>
+      </div>
+
+      <h2 class="text-xl font-bold mb-2">💰 Totais</h2>
+      <div class="glass border rounded-lg p-3 mb-4">
+        <p><strong>Total:</strong> R$ <span id="total">0.00</span></p>
+        <p><strong>Troco:</strong> R$ <span id="troco">0.00</span></p>
+        <p id="totalVendasDia" class="hidden"><strong>Total Vendido no Dia:</strong> R$ <span id="valorTotalDia">0.00</span></p>
+      </div>
+
+      <label for="valorPago" class="block mb-1 font-medium">Valor Pago:</label>
+      <input type="number" id="valorPago" placeholder="Digite o valor pago" class="border rounded-lg px-3 py-2 w-full text-black"/>
+    </section>
 
     <!-- Coluna direita -->
-    <div class="col-direita">
-      <div class="descricao">
-        <h2>Descrição do Produto:</h2>
-        <p id="descricaoProduto"></p>
-      </div>
+    <section class="glass rounded-2xl shadow-2xl p-6 w-full md:w-1/2">
+      <h2 class="text-xl font-bold mb-2">📝 Descrição do Produto</h2>
+      <p id="descricaoProduto" class="border rounded-lg p-3 min-h-[50px] mb-4 bg-white/30 text-black"></p>
 
-      <div class="historico">
-        <h2>Histórico de Produtos</h2>
-        <ul id="historicoProdutos"></ul>
-      </div>
-    </div>
-  </div>
+      <h2 class="text-xl font-bold mb-2">📜 Histórico de Produtos</h2>
+      <ul id="historicoProdutos" class="border rounded-lg p-3 space-y-1 max-h-60 overflow-y-auto bg-white/30 text-black"></ul>
+    </section>
+  </main>
 
-  <div class="historicoVendas">
-    <h2>Histórico de Vendas</h2>
-    <ul id="historicoVendas"></ul>
-  </div>
+  <!-- Histórico de Vendas -->
+  <section class="glass rounded-2xl shadow-2xl p-6 mx-6 mb-6">
+    <h2 class="text-xl font-bold mb-2">📦 Histórico de Vendas</h2>
+    <ul id="historicoVendas" class="border rounded-lg p-3 space-y-1 max-h-60 overflow-y-auto bg-white/30 text-black"></ul>
+  </section>
 
-
-<script>
-  let html5QrCode;
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const isMobile = window.innerWidth <= 768;
-    document.getElementById("modoSelecao").style.display = isMobile ? "flex" : "none";
-    document.getElementById("inputManual").style.display = isMobile ? "none" : "block";
-    document.getElementById("scanner-container").style.display = "none";
-  });
-
-  function ativarModoDigitacao() {
-    document.getElementById("inputManual").style.display = "block";
-    document.getElementById("scanner-container").style.display = "none";
-    if (html5QrCode) {
-      html5QrCode.stop().then(() => {
-        document.getElementById("reader").innerHTML = "";
-      }).catch((err) => {
-        console.error("Erro ao parar scanner: ", err);
-      });
-    }
-  }
-
-  function iniciarLeitorQRCode() {
-    document.getElementById("scanner-container").style.display = "block";
-    document.getElementById("inputManual").style.display = "none";
-    html5QrCode = new Html5Qrcode("reader");
-    html5QrCode.start(
-            { facingMode: "environment" },
-            { fps: 10, qrbox: 250 },
-            (decodedText) => {
-              document.getElementById("codigoProduto").value = decodedText;
-              pararLeitorQRCode();
-              adicionarProduto();
-            },
-            () => {}
-    ).catch((err) => {
-      console.error("Erro ao iniciar leitor: ", err);
-      alert("Erro ao acessar a câmera.");
-    });
-  }
-
-  function pararLeitorQRCode() {
-    if (html5QrCode) {
-      html5QrCode.stop().then(() => {
-        document.getElementById("scanner-container").style.display = "none";
-        document.getElementById("reader").innerHTML = "";
-      }).catch((err) => {
-        console.error("Erro ao parar scanner: ", err);
-      });
-    }
-  }
-
-</script>
-
-<script src="scriptcaixa.js"></script>
+  <script src="scriptcaixa.js"></script>
 </body>
 </html>
